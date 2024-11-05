@@ -5,6 +5,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import PizzaListScreen from './app/screen/pizzaListScreen';
 import 'react-native-gesture-handler';
+import OrderHistoryScreen from './app/screen/orderHistoryScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -14,6 +15,7 @@ const App = () => {
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Home">
           <Drawer.Screen name="Home" component={PizzaListScreen} />
+          <Drawer.Screen name="Your orders" component={OrderHistoryScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

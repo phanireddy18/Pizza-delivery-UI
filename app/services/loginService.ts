@@ -2,12 +2,13 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Make sure to install this package
 import axios from 'axios';
+import { AUTHENTICATION_URL } from '../../environment';
 
-const API_URL = 'http://192.168.29.69:7000/api/v1/login';
+// const API_URL = 'http://192.168.29.69:7000/api/v1/login';
 
 export const loginUser = async (email: string, password: string) => {
   try {
-    const response = await axios.post(API_URL, {
+    const response = await axios.post(AUTHENTICATION_URL.LOGIN_API_URL, {
       email,
       password,
     });

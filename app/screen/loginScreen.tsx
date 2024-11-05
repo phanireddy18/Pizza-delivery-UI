@@ -1,11 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { StackNavigationProp } from '@react-navigation/stack';
 import styles from '../../styles/loginScreen.scss';
@@ -21,11 +15,9 @@ export default function LoginScreen() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  // State for error messages
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -34,7 +26,6 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     let valid = true;
 
-    // Validate email
     if (!email) {
       setEmailError('Email is required');
       valid = false;
@@ -45,7 +36,6 @@ export default function LoginScreen() {
       setEmailError(null);
     }
 
-    // Validate password
     if (!password) {
       setPasswordError('Password is required');
       valid = false;
@@ -56,26 +46,23 @@ export default function LoginScreen() {
       setPasswordError(null);
     }
 
-    // If valid, show success alert and navigate to Register screen
     if (valid) {
-      const result = await loginUser(email, password);
-      if (result.success) {
-        // Handle successful login (e.g., navigate to home screen)
-        console.log('Login successful:', result.data);
-        Alert.alert('Success', 'Login successful', [
-          {
-            text: 'OK', onPress: () => {
-              resetForm(); // Reset form after successful login
-              navigation.navigate('Drawer');
-            },
-          },
-        ]);
-        // Navigate to your home screen here
-      } else {
-        // Show error message
-        setErrorMessage(result.message);
-        Alert.alert('Login Error', result.message);
-        resetForm();
+      setLoading(true); // Start loading
+      try {
+        const result = await loginUser(email, password);
+        console.log('Login successful:', result);
+
+        setLoading(false); // Stop loading
+        if (result.success) {
+          resetForm();
+          navigation.navigate('Drawer'); // Navigate to your home screen
+        } else {
+          setPasswordError(result.message); // Show error in password field
+          resetForm(); // Optionally reset form on error
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        setLoading(false); // Stop loading in case of error
       }
     }
   };
@@ -85,7 +72,6 @@ export default function LoginScreen() {
     setPassword('');
     setEmailError(null);
     setPasswordError(null);
-    setErrorMessage('');
   };
 
   // Reset form when screen loses focus
@@ -98,19 +84,16 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-      {errorMessage ? <Text style={{ color: '#ff4d4d' }}>{errorMessage}</Text> : null}
+      
       {/* Email Input */}
       <TextInput
-        style={[
-          styles.input,
-          emailError ? styles.inputError : null, // Apply error style if there's an email error
-        ]}
+        style={[styles.input, emailError ? styles.inputError : null]}
         placeholder="Email"
         placeholderTextColor="#888"
         value={email}
         onChangeText={(text) => {
           setEmail(text);
-          if (emailError) {setEmailError(null);} // Clear error message on typing
+          if (emailError) { setEmailError(null); }
         }}
         keyboardType="email-address"
         autoCapitalize="none"
@@ -126,7 +109,7 @@ export default function LoginScreen() {
           value={password}
           onChangeText={(text) => {
             setPassword(text);
-            if (passwordError) setPasswordError(null); // Clear error message on typing
+            if (passwordError) setPasswordError(null);
           }}
           secureTextEntry={!showPassword}
           autoCapitalize="none"
@@ -141,9 +124,14 @@ export default function LoginScreen() {
       </View>
       {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
-      </TouchableOpacity>
+      {/* Activity Indicator */}
+      {loading ? (
+        <ActivityIndicator size="large" color="#4CAF50" style={{ marginVertical: 20 }} />
+      ) : (
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
+      )}
 
       <Text style={styles.registerText}>
         <Text style={styles.registerText1}>Don't have an account? </Text>

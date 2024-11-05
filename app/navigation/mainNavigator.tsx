@@ -2,7 +2,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screen/loginScreen';
-import RegistrationScreen from '../screen/registrationScreen';
+import RegistrationScreen from '../screen/registrationscreen';
 import DrawerNavigation from './drawerNavigator';
 
 export type RootStackParamList = {

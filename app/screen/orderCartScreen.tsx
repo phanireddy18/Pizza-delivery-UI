@@ -1,7 +1,7 @@
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import React from 'react';
 
-const orderCartScreen = () => {
+const OrderCartScreen = () => {
   return (
     <View>
       <Text>orderCartScreen</Text>
@@ -9,5 +9,4 @@ const orderCartScreen = () => {
   );
 };
 
-export default orderCartScreen;
-
+export default OrderCartScreen;

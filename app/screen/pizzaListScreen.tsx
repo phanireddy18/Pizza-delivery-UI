@@ -1,12 +1,21 @@
-import { View, Text } from 'react-native';
+// app/screen/pizzaListScreen.js
 import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 
-const pizzaListScreen = () => {
+const PizzaListScreen = () => {
   return (
-    <View>
-      <Text>pizzaListScreen</Text>
+    <View style={styles.container}>
+      <Text>Pizza List Screen</Text>
     </View>
   );
 };
 
-export default pizzaListScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default PizzaListScreen;

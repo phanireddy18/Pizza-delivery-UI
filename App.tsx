@@ -1,25 +1,23 @@
-//import liraries
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import PizzaListScreen from './app/screen/pizzaListScreen';
+import 'react-native-gesture-handler';
 
-// create a component
+const Drawer = createDrawerNavigator();
+
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>MyComponent</Text>
-    </View>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={PizzaListScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-});
-
-//make this component available to the app
 export default App;

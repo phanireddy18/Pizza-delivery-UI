@@ -1,7 +1,7 @@
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import React from 'react';
 
-const pizzaDetailsScreen = () => {
+const PizzaDetailsScreen = () => {
   return (
     <View>
       <Text>pizzaDetailsScreen</Text>
@@ -9,4 +9,4 @@ const pizzaDetailsScreen = () => {
   );
 };
 
-export default pizzaDetailsScreen;
+export default PizzaDetailsScreen;

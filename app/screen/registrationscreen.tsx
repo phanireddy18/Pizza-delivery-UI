@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import React from 'react';
 
-const registrationscreen = () => {
+const RegistrationScreen = () => {
   return (
     <View>
-      <Text>registrationscreen</Text>
+      <Text>RegistrationScreen</Text>
     </View>
   );
 };
 
-export default registrationscreen;
+export default RegistrationScreen;

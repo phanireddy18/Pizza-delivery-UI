@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getOrdersHistoryByUserId, Order} from '../services/ordersService';
@@ -33,7 +34,6 @@ const OrderHistoryScreen = () => {
           const userId = decodedToken.userId;
           const orderHistory = await getOrdersHistoryByUserId(userId);
           setOrders(orderHistory.data);
-          console.log('------------------>', orderHistory.data[0].pizzas);
         } else {
           console.log('No user token found');
         }
@@ -59,7 +59,9 @@ const OrderHistoryScreen = () => {
         <View style={styles.orderIdStatusRow}>
           <View style={styles.orderIdIconContainer}>
             <FontAwesome name="shopping-bag" size={20} color="#4CAF50" />
-            <Text style={styles.orderText}>Order ID: #{item.orderId}</Text>
+            <Text style={styles.orderText}>
+              Order ID: <Text style={styles.orderIdText}>#{item.orderId}</Text>
+            </Text>
           </View>
           <View style={styles.statusContainer}>
             <MaterialIcons
@@ -83,24 +85,56 @@ const OrderHistoryScreen = () => {
         {/* Dotted Separator Line */}
         <View style={styles.separatorLine} />
 
-        {/* Show Pizzas */}
-        {item.pizzas && item.pizzas.length > 0 && (
-          <View style={styles.pizzaList}>
-            <Text style={styles.pizzaListTitle}>Pizzas:</Text>
-            {item.pizzas.map((pizza, index) => (
-              <Text key={index} style={styles.pizzaText}>
-                {pizza.pizzaName} - {pizza.pizzaQuantity} x ${pizza.pizzaPrice}
-              </Text>
-            ))}
-          </View>
-        )}
-
         <View style={styles.ordersData}>
-          <Text style={styles.orderText}>Total: ${item.totalPrice}</Text>
-          <Text style={styles.orderText}>Address: {item.deliveryAddress}</Text>
-          <Text style={styles.orderDate}>
-            Order on {' - '} {new Date(item.createdAt).toLocaleString()}
-          </Text>
+          <View style={styles.dataContainer}>
+            {/* Show Pizzas */}
+            {item.pizzas && item.pizzas.length > 0 && (
+              <View style={styles.pizzaList}>
+                <View>
+                  <Text style={styles.pizzaListTitle}>Pizzas:</Text>
+                </View>
+                <View>
+                  {item.pizzas.map((pizza, index) => (
+                    <Text key={index} style={styles.pizzaText}>
+                      {pizza.pizzaName} - {pizza.pizzaQuantity} x $
+                      {pizza.pizzaPrice}
+                    </Text>
+                  ))}
+                </View>
+              </View>
+            )}
+            <Text style={styles.orderText}>
+              Address: {item.deliveryAddress}
+            </Text>
+            <View style={styles.dateTotalContainer}>
+              <View>
+                <Text style={styles.orderText}>Total: ${item.totalPrice}</Text>
+              </View>
+              <View>
+                <Text style={styles.orderDate}>
+                  Order on{' '}
+                  {new Date(item.createdAt).toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}{' '}
+                  {new Date(item.createdAt).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.dummyImage}>
+            <Image
+              style={styles.imageStyles}
+              source={{
+                uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaNDW06GO5tViY6JJfaEh804rlDkf15n5CVw&s',
+              }}
+            />
+          </View>
         </View>
 
         <View style={styles.separatorLine} />

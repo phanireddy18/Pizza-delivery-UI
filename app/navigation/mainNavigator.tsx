@@ -1,14 +1,16 @@
 import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screen/loginScreen';
-import RegistrationScreen from '../screen/registrationScreen';
+import RegistrationScreen from '../screen/registrationscreen';
 import DrawerNavigation from './drawerNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PizzaDetailsScreen from '../screen/pizzaDetailsScreen';
 
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Drawer: undefined;
+  pizzaDetails: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -62,6 +64,11 @@ export default function MainNavigator() {
         name="Drawer"
         component={DrawerNavigation}
         options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="pizzaDetails"
+        component={PizzaDetailsScreen}
+        options={{headerShown: true}}
       />
     </Stack.Navigator>
   );

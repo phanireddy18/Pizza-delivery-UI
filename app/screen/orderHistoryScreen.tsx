@@ -33,6 +33,7 @@ const OrderHistoryScreen = () => {
           const userId = decodedToken.userId;
           const orderHistory = await getOrdersHistoryByUserId(userId);
           setOrders(orderHistory.data);
+          console.log('------------------>', orderHistory.data[0].pizzas);
         } else {
           console.log('No user token found');
         }
@@ -82,13 +83,26 @@ const OrderHistoryScreen = () => {
         {/* Dotted Separator Line */}
         <View style={styles.separatorLine} />
 
+        {/* Show Pizzas */}
+        {item.pizzas && item.pizzas.length > 0 && (
+          <View style={styles.pizzaList}>
+            <Text style={styles.pizzaListTitle}>Pizzas:</Text>
+            {item.pizzas.map((pizza, index) => (
+              <Text key={index} style={styles.pizzaText}>
+                {pizza.pizzaName} - {pizza.pizzaQuantity} x ${pizza.pizzaPrice}
+              </Text>
+            ))}
+          </View>
+        )}
+
         <View style={styles.ordersData}>
           <Text style={styles.orderText}>Total: ${item.totalPrice}</Text>
           <Text style={styles.orderText}>Address: {item.deliveryAddress}</Text>
           <Text style={styles.orderDate}>
-            {new Date(item.createdAt).toLocaleString()}
+            Order on {' - '} {new Date(item.createdAt).toLocaleString()}
           </Text>
         </View>
+
         <View style={styles.separatorLine} />
 
         {/* Reorder Button and Rating */}

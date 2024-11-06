@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import styles from '../../styles/registerScreen.scss';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -130,118 +136,135 @@ const RegistrationScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
+    <ImageBackground
+      source={require('../assets/images/pizza.jpg')}
+      resizeMethod={'auto'}
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden', // prevent image overflow the container
+        backgroundColor: '#000',
+      }}
+      imageStyle={{
+        resizeMode: 'cover',
+        height: '100vh',
+        width: '100%',
+        justifyContent: 'center',
+        opacity: 0.4,
+      }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Register</Text>
 
-      {/* Existing fields */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          placeholderTextColor="#888888"
-          value={username}
-          onChangeText={setUsername}
-        />
-        {errors.username ? (
-          <Text style={styles.errorText}>{errors.username}</Text>
-        ) : null}
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Phone Number"
-          placeholderTextColor="#888888"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          keyboardType="phone-pad"
-        />
-        {errors.phoneNumber ? (
-          <Text style={styles.errorText}>{errors.phoneNumber}</Text>
-        ) : null}
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#888888"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-        {errors.email ? (
-          <Text style={styles.errorText}>{errors.email}</Text>
-        ) : null}
-      </View>
-
-      {/* New Address field */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Address"
-          placeholderTextColor="#888888"
-          value={address}
-          onChangeText={setAddress}
-        />
-        {errors.address ? (
-          <Text style={styles.errorText}>{errors.address}</Text>
-        ) : null}
-      </View>
-
-      {/* Password fields */}
-      <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.passwordInput}
-          placeholder="Password"
-          placeholderTextColor="#888"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={!showPassword}
-        />
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Icon
-            name={showPassword ? 'eye-off' : 'eye'}
-            size={20}
-            color="#888"
+        {/* Existing fields */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            placeholderTextColor="#888888"
+            value={username}
+            onChangeText={setUsername}
           />
-        </TouchableOpacity>
-      </View>
-      <View>
-        {errors.password ? (
-          <Text style={styles.errorText}>{errors.password}</Text>
-        ) : null}
-      </View>
-
-      <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.passwordInput}
-          placeholder="Confirm Password"
-          placeholderTextColor="#888888"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry={!showConfirmPassword}
-        />
-        <TouchableOpacity onPress={toggleConfirmPasswordVisibility}>
-          <Icon
-            name={showConfirmPassword ? 'eye-off' : 'eye'}
-            size={20}
-            color="#888"
+          {errors.username ? (
+            <Text style={styles.errorText}>{errors.username}</Text>
+          ) : null}
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Phone Number"
+            placeholderTextColor="#888888"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            keyboardType="phone-pad"
           />
-        </TouchableOpacity>
-      </View>
-      <View>
-        {errors.confirmPassword ? (
-          <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-        ) : null}
-      </View>
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
+          {errors.phoneNumber ? (
+            <Text style={styles.errorText}>{errors.phoneNumber}</Text>
+          ) : null}
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#888888"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+          {errors.email ? (
+            <Text style={styles.errorText}>{errors.email}</Text>
+          ) : null}
+        </View>
 
-      <Text style={styles.registerText}>
-        <Text style={styles.registerText1}>Don't have an account? </Text>
-        <Text onPress={() => navigation.navigate('Login')}>Login</Text>
-      </Text>
-    </View>
+        {/* New Address field */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Address"
+            placeholderTextColor="#888888"
+            value={address}
+            onChangeText={setAddress}
+          />
+          {errors.address ? (
+            <Text style={styles.errorText}>{errors.address}</Text>
+          ) : null}
+        </View>
+
+        {/* Password fields */}
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.passwordInput}
+            placeholder="Password"
+            placeholderTextColor="#888"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity onPress={togglePasswordVisibility}>
+            <Icon
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={20}
+              color="#888"
+            />
+          </TouchableOpacity>
+        </View>
+        <View>
+          {errors.password ? (
+            <Text style={styles.errorText}>{errors.password}</Text>
+          ) : null}
+        </View>
+
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.passwordInput}
+            placeholder="Confirm Password"
+            placeholderTextColor="#888888"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={!showConfirmPassword}
+          />
+          <TouchableOpacity onPress={toggleConfirmPasswordVisibility}>
+            <Icon
+              name={showConfirmPassword ? 'eye-off' : 'eye'}
+              size={20}
+              color="#888"
+            />
+          </TouchableOpacity>
+        </View>
+        <View>
+          {errors.confirmPassword ? (
+            <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+          ) : null}
+        </View>
+        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.registerText}>
+          <Text style={styles.registerText1}>Don't have an account? </Text>
+          <Text onPress={() => navigation.navigate('Login')}>Login</Text>
+        </Text>
+      </View>
+    </ImageBackground>
   );
 };
 

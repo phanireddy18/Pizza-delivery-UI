@@ -1,4 +1,3 @@
-// src/navigation/MainNavigator.tsx
 import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screen/loginScreen';
@@ -15,9 +14,10 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function MainNavigator() {
-  const [initialRoute, setInitialRoute] = React.useState<string | undefined>(
-    undefined,
-  );
+  // Define initialRoute with a specific type
+  const [initialRoute, setInitialRoute] = React.useState<
+    keyof RootStackParamList | undefined
+  >(undefined);
 
   useEffect(() => {
     console.log('MainNavigator useEffect triggered');

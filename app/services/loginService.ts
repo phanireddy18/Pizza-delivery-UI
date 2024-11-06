@@ -1,12 +1,16 @@
 // loginService.ts
 
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Make sure to install this package
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { AUTHENTICATION_URL } from '../../environment';
 
 // const API_URL = 'http://192.168.29.69:7000/api/v1/login';
+interface ErrorResponse {
+  error: boolean;
+  message: string;
+}
 
-export const loginUser = async (email: string, password: string) => {
+export const loginUser = async (email: string, password: string) => { 
   try {
     const response = await axios.post(AUTHENTICATION_URL.LOGIN_API_URL, {
       email,
@@ -24,6 +28,10 @@ export const loginUser = async (email: string, password: string) => {
     }
   } catch (error) {
     console.error('Login error:', error);
-    return { success: false, message: 'An unexpected error occurred' };
+    const axiosError = error as AxiosError;
+    const errorData = axiosError.response?.data as ErrorResponse;
+    const errorMessage = errorData?.message || 'An unexpected error occurred.';
+    return { success: false, message: errorMessage };  // Return error message instead of throwing it
   }
 };
+

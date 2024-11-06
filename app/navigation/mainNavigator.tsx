@@ -62,7 +62,10 @@ export default function MainNavigator() {
       <Stack.Screen
         name="pizzaDetails"
         component={PizzaDetailsScreen}
-        options={{headerShown: true}}
+        options={{headerShown: true,
+          title: '',
+        }}
+        
       />
     </Stack.Navigator>
   );

@@ -28,6 +28,7 @@ export default function LoginScreen() {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false); // Loading state
+  const [errorMessage, setErrorMessage] = useState(''); 
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -38,9 +39,11 @@ export default function LoginScreen() {
 
     if (!email) {
       setEmailError('Email is required');
+      setErrorMessage('');
       valid = false;
     } else if (!validateEmail(email)) {
       setEmailError('Please enter a valid email');
+      setErrorMessage('');
       valid = false;
     } else {
       setEmailError(null);
@@ -48,9 +51,11 @@ export default function LoginScreen() {
 
     if (!password) {
       setPasswordError('Password is required');
+      setErrorMessage('');
       valid = false;
     } else if (!validatePassword(password)) {
       setPasswordError('Password must be at least 6 characters long');
+      setErrorMessage('');
       valid = false;
     } else {
       setPasswordError(null);
@@ -69,6 +74,7 @@ export default function LoginScreen() {
         } else {
           setPasswordError(result.message); // Show error in password field
           resetForm(); // Optionally reset form on error
+          setErrorMessage(result.message);
         }
       } catch (error) {
         console.error('Login error:', error);
@@ -82,6 +88,7 @@ export default function LoginScreen() {
     setPassword('');
     setEmailError(null);
     setPasswordError(null);
+    setErrorMessage('');
   };
 
   // Reset form when screen loses focus
@@ -94,7 +101,9 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-
+      {errorMessage ? (
+        <Text style={styles.loginErrorMsg}>{errorMessage}</Text>  // Display error message
+      ) : null}
       {/* Email Input */}
       <TextInput
         style={[styles.input, emailError ? styles.inputError : null]}
@@ -103,8 +112,10 @@ export default function LoginScreen() {
         value={email}
         onChangeText={text => {
           setEmail(text);
+          setErrorMessage('');
           if (emailError) {
             setEmailError(null);
+  
           }
         }}
         keyboardType="email-address"
@@ -124,6 +135,7 @@ export default function LoginScreen() {
           placeholderTextColor="#888"
           value={password}
           onChangeText={text => {
+            setErrorMessage('');
             setPassword(text);
             if (passwordError) {
               setPasswordError(null);

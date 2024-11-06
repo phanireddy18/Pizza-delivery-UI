@@ -9,8 +9,10 @@ import {Alert, Text, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DrawerActions} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../../styles/globalStyle.scss';
 import OrderHistoryScreen from '../screen/orderHistoryScreen';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -60,7 +62,7 @@ const DrawerNavigation = ({navigation}: any) => {
         <Drawer.Screen
           name="Logout"
           options={{
-            drawerIcon: () => <Entypo name="log-out" size={22} color="#000" />,
+            drawerIcon: () => <AntDesign name="logout" size={22} color="#000" />,
             title: 'Logout',
             drawerLabel: () => (
               <View style={globalStyles.logout_container}>

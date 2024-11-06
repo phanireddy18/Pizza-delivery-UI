@@ -1,8 +1,18 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, Image, ActivityIndicator, Button, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
-import { RouteProp, useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../type';
-import { getPizzaDetailsById } from '../services/pizzaService';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect, useState, useCallback} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  ActivityIndicator,
+  Button,
+  ScrollView,
+  RefreshControl,
+  TouchableOpacity,
+} from 'react-native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../../type';
+import {getPizzaDetailsById} from '../services/pizzaService';
 import styles from '../../styles/pizzaDetailsScreen.scss';
 import RenderHTML from 'react-native-render-html';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -20,12 +30,15 @@ interface PizzaDetails {
   longDescription: string;
 }
 
-type PizzaDetailsScreenRouteProp = RouteProp<RootStackParamList, 'pizzaDetails'>;
-type PizzaDetailsScreenProps = { route: PizzaDetailsScreenRouteProp };
+type PizzaDetailsScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'pizzaDetails'
+>;
+type PizzaDetailsScreenProps = {route: PizzaDetailsScreenRouteProp};
 
-const PizzaDetailsScreen = ({ route }: PizzaDetailsScreenProps) => {
+const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
   const navigation = useNavigation();
-  const { pizzaId } = route.params;
+  const {pizzaId} = route.params;
   const [pizzaDetails, setPizzaDetails] = useState<PizzaDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -55,11 +68,14 @@ const PizzaDetailsScreen = ({ route }: PizzaDetailsScreenProps) => {
     fetchPizzaDetails();
   };
 
-  const handleAddItem = () => setItemCount((prevCount) => prevCount + 1);
-  const handleRemoveItem = () => setItemCount((prevCount) => (prevCount > 0 ? prevCount - 1 : 0));
+  const handleAddItem = () => setItemCount(prevCount => prevCount + 1);
+  const handleRemoveItem = () =>
+    setItemCount(prevCount => (prevCount > 0 ? prevCount - 1 : 0));
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#4CAF50" style={styles.loader} />;
+    return (
+      <ActivityIndicator size="large" color="#4CAF50" style={styles.loader} />
+    );
   }
 
   if (error) {
@@ -77,13 +93,14 @@ const PizzaDetailsScreen = ({ route }: PizzaDetailsScreenProps) => {
 
   return (
     <ScrollView
-
-      contentContainerStyle={{ alignItems: 'flex-start', padding: 20 }}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      contentContainerStyle={{alignItems: 'flex-start', padding: 20}}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       scrollEnabled={true} // Ensure scrollView registers pull-down refresh from the top
     >
       {/* <View    style={styles.container} > */}
-      <Image source={{ uri: pizzaDetails.imageUrl }} style={styles.image} />
+      <Image source={{uri: pizzaDetails.imageUrl}} style={styles.image} />
       <Text style={styles.name}>{pizzaDetails.name}</Text>
 
       <View style={styles.priceContainer}>
@@ -94,11 +111,15 @@ const PizzaDetailsScreen = ({ route }: PizzaDetailsScreenProps) => {
           </TouchableOpacity>
         ) : (
           <View style={styles.counterContainer}>
-            <TouchableOpacity style={styles.counterButton} onPress={handleRemoveItem}>
+            <TouchableOpacity
+              style={styles.counterButton}
+              onPress={handleRemoveItem}>
               <Text style={styles.counterButtonText}>-</Text>
             </TouchableOpacity>
             <Text style={styles.itemCount}>{itemCount}</Text>
-            <TouchableOpacity style={styles.counterButton} onPress={handleAddItem}>
+            <TouchableOpacity
+              style={styles.counterButton}
+              onPress={handleAddItem}>
               <Text style={styles.counterButtonText}>+</Text>
             </TouchableOpacity>
           </View>
@@ -108,41 +129,41 @@ const PizzaDetailsScreen = ({ route }: PizzaDetailsScreenProps) => {
       <ScrollView
         style={styles.scrollView} // Height and width control for ScrollView itself
         contentContainerStyle={styles.descriptionContainer} // Content styling
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         showsVerticalScrollIndicator={false} // Hide vertical scrollbar
         showsHorizontalScrollIndicator={false} // Hide horizontal scrollbar (if any)
       >
         import RenderHTML from 'react-native-render-html';
-
         <RenderHTML
           contentWidth={300} // Adjust according to your screen width or container size
-          source={{ html: pizzaDetails?.longDescription }}
+          source={{html: pizzaDetails?.longDescription}}
           tagsStyles={{
             p: {
-              fontSize: 16,  // Increase font size for <p> elements (for paragraphs)
-              color: '#333',  // Optional: change text color
+              fontSize: 16, // Increase font size for <p> elements (for paragraphs)
+              color: '#333', // Optional: change text color
             },
             h1: {
-              fontSize: 22,  // Increase font size for <h1> headings
-              fontWeight: 'bold',  // Optional: style headings
+              fontSize: 22, // Increase font size for <h1> headings
+              fontWeight: 'bold', // Optional: style headings
             },
             h2: {
-              fontSize: 20,  // Style <h2> heading
+              fontSize: 20, // Style <h2> heading
               fontWeight: 'bold',
             },
             // Add more tag styles if necessary
           }}
         />
-
       </ScrollView>
-
 
       {itemCount > 0 && (
         <View style={styles.cartCard}>
           <View style={styles.cartCardContent}>
             <Text style={styles.cartText}>Total Items: {itemCount}</Text>
             <TouchableOpacity style={styles.viewCartButton}>
-              <Text style={styles.viewCartButtonText}>View Cart
+              <Text style={styles.viewCartButtonText}>
+                View Cart
                 <Entypo name="chevron-thin-right" size={16} color="#fff" />
               </Text>
             </TouchableOpacity>

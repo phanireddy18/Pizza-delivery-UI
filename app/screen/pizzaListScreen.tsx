@@ -22,6 +22,7 @@ const PizzaListScreen = () => {
 
   const [pizzas, setPizzas] = useState<Pizza[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false); // Track refreshing state
 
   useEffect(() => {
     const fetchPizzas = async () => {
@@ -37,6 +38,19 @@ const PizzaListScreen = () => {
     fetchPizzas();
   }, []);
 
+  // Function to handle refresh
+  const handleRefresh = async () => {
+    setRefreshing(true); // Start refreshing
+    try {
+      const response = await getAllPizzas();
+      setPizzas(response.data);
+    } catch (error) {
+      console.error('Failed to fetch pizzas', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false); // End refreshing
+    }
+  };
   const handleSelectPizza = (pizzaId: number) => {
     navigation.navigate('pizzaDetails', {pizzaId: pizzaId});
   };
@@ -79,6 +93,8 @@ const PizzaListScreen = () => {
           keyExtractor={item => item.pizzaId.toString()}
           contentContainerStyle={{paddingBottom: 20}}
           showsVerticalScrollIndicator={false}
+          onRefresh={handleRefresh} // Attach the refresh function
+          refreshing={refreshing} // Control the refreshing state
         />
       )}
     </View>

@@ -1,8 +1,8 @@
 // src/navigation/MainNavigator.tsx
-import React, { useEffect } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {useEffect} from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screen/loginScreen';
-import RegistrationScreen from '../screen/registrationscreen';
+import RegistrationScreen from '../screen/registrationScreen';
 import DrawerNavigation from './drawerNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -15,7 +15,9 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function MainNavigator() {
-  const [initialRoute, setInitialRoute] = React.useState<string | undefined>(undefined);
+  const [initialRoute, setInitialRoute] = React.useState<string | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     console.log('MainNavigator useEffect triggered');
@@ -45,21 +47,21 @@ export default function MainNavigator() {
   }
 
   return (
-    <Stack.Navigator  initialRouteName={initialRoute}>
+    <Stack.Navigator initialRouteName={initialRoute}>
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Register"
         component={RegistrationScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Drawer"
         component={DrawerNavigation}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

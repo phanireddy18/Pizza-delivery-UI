@@ -10,8 +10,6 @@ interface RegisterData {
 }
 
 export const registerService = async (data: RegisterData): Promise<any> => {
-  console.log('register data------>', data);
-
   try {
     const response = await axios.post(
       `${AUTHENTICATION_URL.REGISTER_API_URL}`,

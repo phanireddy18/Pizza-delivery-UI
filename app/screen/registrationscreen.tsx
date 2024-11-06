@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import styles from '../styles/registerScreen.scss';
+import styles from '../../styles/registerScreen.scss';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/mainNavigator';
@@ -116,10 +116,6 @@ const RegistrationScreen = () => {
     }
   };
 
-  const handleLogin = () => {
-    navigation.navigate('Login');
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
@@ -210,9 +206,11 @@ const RegistrationScreen = () => {
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleLogin}>
-        <Text style={styles.loginText}>Already have an account? Login</Text>
-      </TouchableOpacity>
+
+      <Text style={styles.registerText}>
+        <Text style={styles.registerText1}>Don't have an account? </Text>
+        <Text onPress={() => navigation.navigate('Login')}>Login</Text>
+      </Text>
     </View>
   );
 };

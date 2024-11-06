@@ -51,13 +51,17 @@
   font-weight: bold;
 }
 
-.loginText {
-  color: #4caf50;
-  text-align: center;
-}
 .errorText {
   color: red;
   font-size: 12px;
   margin-bottom: 10px;
   font-weight: bold;
+}
+.registerText {
+  color: #4caf50;
+  font-size: 16px;
+  text-align: center;
+}
+.registerText1 {
+  color: #000;
 }

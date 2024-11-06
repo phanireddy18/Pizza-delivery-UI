@@ -1,14 +1,24 @@
-import React, { useState, useCallback } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useCallback} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {StackNavigationProp} from '@react-navigation/stack';
 import styles from '../../styles/loginScreen.scss';
-import { RootStackParamList } from '../navigation/MainNavigator';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { validateEmail, validatePassword } from '../utils/authUtils';
-import { loginUser } from '../services/loginService';
+import {RootStackParamList} from '../navigation/MainNavigator';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {validateEmail, validatePassword} from '../utils/authUtils';
+import {loginUser} from '../services/loginService';
 
-type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Login'
+>;
 
 export default function LoginScreen() {
   const navigation = useNavigation<LoginScreenNavigationProp>();
@@ -78,22 +88,24 @@ export default function LoginScreen() {
   useFocusEffect(
     useCallback(() => {
       return () => resetForm();
-    }, [])
+    }, []),
   );
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-      
+
       {/* Email Input */}
       <TextInput
         style={[styles.input, emailError ? styles.inputError : null]}
         placeholder="Email"
         placeholderTextColor="#888"
         value={email}
-        onChangeText={(text) => {
+        onChangeText={text => {
           setEmail(text);
-          if (emailError) { setEmailError(null); }
+          if (emailError) {
+            setEmailError(null);
+          }
         }}
         keyboardType="email-address"
         autoCapitalize="none"
@@ -101,15 +113,21 @@ export default function LoginScreen() {
       {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
       {/* Password Input */}
-      <View style={[styles.passwordContainer, passwordError ? styles.inputError : null]}>
+      <View
+        style={[
+          styles.passwordContainer,
+          passwordError ? styles.inputError : null,
+        ]}>
         <TextInput
           style={styles.passwordInput}
           placeholder="Password"
           placeholderTextColor="#888"
           value={password}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setPassword(text);
-            if (passwordError) setPasswordError(null);
+            if (passwordError) {
+              setPasswordError(null);
+            }
           }}
           secureTextEntry={!showPassword}
           autoCapitalize="none"
@@ -122,11 +140,17 @@ export default function LoginScreen() {
           />
         </TouchableOpacity>
       </View>
-      {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+      {passwordError ? (
+        <Text style={styles.errorText}>{passwordError}</Text>
+      ) : null}
 
       {/* Activity Indicator */}
       {loading ? (
-        <ActivityIndicator size="large" color="#4CAF50" style={{ marginVertical: 20 }} />
+        <ActivityIndicator
+          size="large"
+          color="#4CAF50"
+          style={{marginVertical: 20}}
+        />
       ) : (
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Login</Text>

@@ -9,7 +9,7 @@ import {
   validateEmail,
   validatePassword,
   validatePhone,
-} from '../utils/authUtils'; // Adjust the path as necessary
+} from '../utils/authUtils';
 import {registerService} from '../services/registerService';
 
 type RegisterScreenNavigationProp = StackNavigationProp<

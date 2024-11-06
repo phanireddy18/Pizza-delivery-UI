@@ -13,9 +13,12 @@
 
 // AppNavigator.ts
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { NavigatorScreenParams } from '@react-navigation/native';
+import {NavigatorScreenParams} from '@react-navigation/native';
 
 export type RootStackParamList = {
+  Login: undefined;
+  Register: undefined;
+  Drawer: undefined;
   PizzaListScreen: undefined;
-  PizzaDetails: undefined; // add any params here if needed
+  pizzaDetails: {pizzaId: number}; // add any params here if needed
 };

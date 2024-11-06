@@ -1,10 +1,22 @@
 import {View, Text} from 'react-native';
 import React from 'react';
+import {RouteProp} from '@react-navigation/native';
+import {RootStackParamList} from '../../type';
 
-const PizzaDetailsScreen = () => {
+type PizzaDetailsScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'pizzaDetails'
+>;
+
+type PizzaDetailsScreenProps = {
+  route: PizzaDetailsScreenRouteProp;
+};
+
+const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
+  const {pizzaId} = route.params;
   return (
     <View>
-      <Text>pizzaDetailsScreen</Text>
+      <Text>pizzaDetailsScreen{pizzaId}</Text>
     </View>
   );
 };

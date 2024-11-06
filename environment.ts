@@ -6,6 +6,12 @@ export const AUTHENTICATION_URL = {
 };
 
 export const SCREEN_URL = {
+  //Pizza list
   GET_ALL_PIZZAS: `${BASE_URL}/pizzas`,
+
+  //Pizza Details
   GET_PIZZA_DETAILS_BY_ID: `${BASE_URL}/pizzas`,
+
+  //Orders History
+  GET_ORDERS_HISTORY: `${BASE_URL}/orders/user`,
 };

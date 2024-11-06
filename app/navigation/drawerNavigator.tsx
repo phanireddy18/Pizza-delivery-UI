@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DrawerActions} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import globalStyles from '../../styles/globalStyle.scss';
+import OrderHistoryScreen from '../screen/orderHistoryScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -45,6 +46,15 @@ const DrawerNavigation = ({navigation}: any) => {
           options={{
             drawerIcon: () => <Entypo name="home" size={22} color="#000" />,
             title: 'Home',
+          }}
+        />
+
+        <Drawer.Screen
+          name="ordersHistory"
+          component={OrderHistoryScreen}
+          options={{
+            drawerIcon: () => <Entypo name="list" size={22} color="#000" />,
+            title: 'Your orders',
           }}
         />
         <Drawer.Screen

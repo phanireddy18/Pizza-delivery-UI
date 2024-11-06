@@ -9,7 +9,7 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-import {Title, Paragraph} from 'react-native-paper';
+import {Title} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import styles from '../../styles/pizzaListScreen.scss';
 import {getAllPizzas, Pizza} from '../services/pizzaService';
@@ -17,11 +17,11 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../type';
 
 const PizzaListScreen = () => {
-  const [pizzas, setPizzas] = useState<Pizza[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList, 'PizzaListScreen'>>();
+
+  const [pizzas, setPizzas] = useState<Pizza[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPizzas = async () => {
@@ -41,33 +41,32 @@ const PizzaListScreen = () => {
     navigation.navigate('pizzaDetails', {pizzaId: pizzaId});
   };
 
-  const renderPizzaItem = ({item}: {item: Pizza}) => (
-    <TouchableOpacity onPress={() => handleSelectPizza(item.pizzaId)}>
-      <View style={cardStyles.card}>
-        {/* <View style={styles.card}> */}
-        <View style={styles.cardImageContainer}>
-          <Image
-            source={{uri: item.imageUrl}}
-            style={styles.cardImage}
-            resizeMode="cover"
-          />
-        </View>
+  const renderPizzaItem = ({item}: {item: Pizza}) => {
+    return (
+      <TouchableOpacity onPress={() => handleSelectPizza(item.pizzaId)}>
+        <View style={cardStyles.card}>
+          <View style={styles.cardImageContainer}>
+            <Image
+              source={{uri: item.imageUrl}}
+              style={styles.cardImage}
+              resizeMode="cover"
+            />
+          </View>
 
-        <View style={styles.cardContent}>
-          <Title style={styles.cardTitle}>{item.name}</Title>
-          <Paragraph style={styles.cardDescription}>
-            {item.description}
-          </Paragraph>
-          <View style={styles.priceContainer}>
-            <Text style={styles.cardPrice}>${item.price}</Text>
-            <Text style={styles.cardSize}>
-              Size: <Text style={styles.sizeValue}>{item.size}</Text>
-            </Text>
+          <View style={styles.cardContent}>
+            <Title style={styles.cardTitle}>{item.name}</Title>
+            <Text style={styles.cardDescription}>{item.description}</Text>
+            <View style={styles.priceContainer}>
+              <Text style={styles.cardPrice}>${item.price}</Text>
+              <Text style={styles.cardSize}>
+                Size: <Text style={styles.sizeValue}>{item.size}</Text>
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>

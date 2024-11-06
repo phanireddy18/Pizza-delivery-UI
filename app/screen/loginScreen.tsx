@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  ImageBackground,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -92,75 +93,93 @@ export default function LoginScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+    <ImageBackground
+      source={require('../assets/images/pizza.jpg')}
+      resizeMethod={'auto'}
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden', // prevent image overflow the container
+        backgroundColor: '#000',
+      }}
+      imageStyle={{
+        resizeMode: 'cover',
+        height: '100vh',
+        width: '100%',
+        justifyContent: 'center',
+        opacity: 0.4,
+        // the image height
+      }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Login</Text>
 
-      {/* Email Input */}
-      <TextInput
-        style={[styles.input, emailError ? styles.inputError : null]}
-        placeholder="Email"
-        placeholderTextColor="#888"
-        value={email}
-        onChangeText={text => {
-          setEmail(text);
-          if (emailError) {
-            setEmailError(null);
-          }
-        }}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
-
-      {/* Password Input */}
-      <View
-        style={[
-          styles.passwordContainer,
-          passwordError ? styles.inputError : null,
-        ]}>
+        {/* Email Input */}
         <TextInput
-          style={styles.passwordInput}
-          placeholder="Password"
+          style={[styles.input, emailError ? styles.inputError : null]}
+          placeholder="Email"
           placeholderTextColor="#888"
-          value={password}
+          value={email}
           onChangeText={text => {
-            setPassword(text);
-            if (passwordError) {
-              setPasswordError(null);
+            setEmail(text);
+            if (emailError) {
+              setEmailError(null);
             }
           }}
-          secureTextEntry={!showPassword}
+          keyboardType="email-address"
           autoCapitalize="none"
         />
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Icon
-            name={showPassword ? 'eye-off' : 'eye'}
-            size={20}
-            color="#888"
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+
+        {/* Password Input */}
+        <View
+          style={[
+            styles.passwordContainer,
+            passwordError ? styles.inputError : null,
+          ]}>
+          <TextInput
+            style={styles.passwordInput}
+            placeholder="Password"
+            placeholderTextColor="#888"
+            value={password}
+            onChangeText={text => {
+              setPassword(text);
+              if (passwordError) {
+                setPasswordError(null);
+              }
+            }}
+            secureTextEntry={!showPassword}
+            autoCapitalize="none"
           />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={togglePasswordVisibility}>
+            <Icon
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={20}
+              color="#888"
+            />
+          </TouchableOpacity>
+        </View>
+        {passwordError ? (
+          <Text style={styles.errorText}>{passwordError}</Text>
+        ) : null}
+
+        {/* Activity Indicator */}
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color="#4CAF50"
+            style={{marginVertical: 20}}
+          />
+        ) : (
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginButtonText}>Login</Text>
+          </TouchableOpacity>
+        )}
+
+        <Text style={styles.registerText}>
+          <Text style={styles.registerText1}>Don't have an account? </Text>
+          <Text onPress={() => navigation.navigate('Register')}>Register</Text>
+        </Text>
       </View>
-      {passwordError ? (
-        <Text style={styles.errorText}>{passwordError}</Text>
-      ) : null}
-
-      {/* Activity Indicator */}
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color="#4CAF50"
-          style={{marginVertical: 20}}
-        />
-      ) : (
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Login</Text>
-        </TouchableOpacity>
-      )}
-
-      <Text style={styles.registerText}>
-        <Text style={styles.registerText1}>Don't have an account? </Text>
-        <Text onPress={() => navigation.navigate('Register')}>Register</Text>
-      </Text>
-    </View>
+    </ImageBackground>
   );
 }

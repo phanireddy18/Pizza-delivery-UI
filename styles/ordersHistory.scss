@@ -1,0 +1,43 @@
+.container {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.loadingContainer {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+.orderCard {
+  margin-bottom: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  padding: 15px;
+}
+.orderText {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+.noOrdersText {
+  font-size: 18px;
+  color: #888;
+  text-align: center;
+  margin-top: 20px;
+}
+.refreshButton {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #6200ea;
+
+  border-radius: 30px;
+  margin-top: 20px;
+}
+.refreshButtonText {
+  color: white;
+  font-size: 16px;
+  margin-left: 10px;
+}

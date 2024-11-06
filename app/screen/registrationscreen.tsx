@@ -3,7 +3,6 @@ import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import styles from '../../styles/registerScreen.scss';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../navigation/mainNavigator';
 import Icon from 'react-native-vector-icons/Feather';
 import {
   validateEmail,
@@ -11,6 +10,7 @@ import {
   validatePhone,
 } from '../utils/authUtils';
 import {registerService} from '../services/registerService';
+import {RootStackParamList} from '../../type';
 
 type RegisterScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -25,6 +25,7 @@ const RegistrationScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [address, setAddress] = useState(''); // New state for address
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -34,6 +35,7 @@ const RegistrationScreen = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    address: '', // New error for address
   });
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -48,6 +50,7 @@ const RegistrationScreen = () => {
       email: '',
       password: '',
       confirmPassword: '',
+      address: '', // New validation for address
     };
 
     // Validation checks
@@ -76,6 +79,12 @@ const RegistrationScreen = () => {
       hasError = true;
     }
 
+    if (!address) {
+      // Address validation
+      newErrors.address = 'Address is required.';
+      hasError = true;
+    }
+
     setErrors(newErrors); // Update the error state
 
     if (!hasError) {
@@ -84,23 +93,27 @@ const RegistrationScreen = () => {
         phoneNumber,
         email,
         password,
+        address, // Include address in the data
       };
 
       try {
         const response = await registerService(data);
         console.log('Registration successful:', response);
 
+        // Reset all fields
         setUsername('');
         setPhoneNumber('');
         setEmail('');
         setPassword('');
         setConfirmPassword('');
+        setAddress(''); // Reset address field
         setErrors({
           username: '',
           phoneNumber: '',
           email: '',
           password: '',
           confirmPassword: '',
+          address: '', // Reset address error
         });
 
         navigation.navigate('Login');
@@ -120,6 +133,7 @@ const RegistrationScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
 
+      {/* Existing fields */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -158,6 +172,22 @@ const RegistrationScreen = () => {
           <Text style={styles.errorText}>{errors.email}</Text>
         ) : null}
       </View>
+
+      {/* New Address field */}
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Address"
+          placeholderTextColor="#888888"
+          value={address}
+          onChangeText={setAddress}
+        />
+        {errors.address ? (
+          <Text style={styles.errorText}>{errors.address}</Text>
+        ) : null}
+      </View>
+
+      {/* Password fields */}
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.passwordInput}

@@ -18,12 +18,14 @@ import styles from '../../styles/ordersHistory.scss';
 interface CustomJwtPayload extends JwtPayload {
   userId: string;
 }
+
 const OrderHistoryScreen = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [userRatings, setUserRatings] = useState<{[orderId: string]: number}>(
     {},
   );
+  const [refreshing, setRefreshing] = useState(false); // Track refreshing state
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
@@ -51,6 +53,24 @@ const OrderHistoryScreen = () => {
       ...prevRatings,
       [orderId]: rating,
     }));
+  };
+
+  // Function to handle refresh
+  const handleRefresh = async () => {
+    setRefreshing(true); // Start refreshing
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken) {
+        const decodedToken = jwtDecode<CustomJwtPayload>(userToken);
+        const userId = decodedToken.userId;
+        const orderHistory = await getOrdersHistoryByUserId(userId);
+        setOrders(orderHistory.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch order history on refresh', error);
+    } finally {
+      setRefreshing(false); // End refreshing
+    }
   };
 
   const renderOrderItem = ({item}: {item: Order}) => (
@@ -90,17 +110,13 @@ const OrderHistoryScreen = () => {
             {/* Show Pizzas */}
             {item.pizzas && item.pizzas.length > 0 && (
               <View style={styles.pizzaList}>
-                <View>
-                  <Text style={styles.pizzaListTitle}>Pizzas:</Text>
-                </View>
-                <View>
-                  {item.pizzas.map((pizza, index) => (
-                    <Text key={index} style={styles.pizzaText}>
-                      {pizza.pizzaName} - {pizza.pizzaQuantity} x $
-                      {pizza.pizzaPrice}
-                    </Text>
-                  ))}
-                </View>
+                <Text style={styles.pizzaListTitle}>Pizzas:</Text>
+                {item.pizzas.map((pizza, index) => (
+                  <Text key={index} style={styles.pizzaText}>
+                    {pizza.pizzaName} - {pizza.pizzaQuantity} x $
+                    {pizza.pizzaPrice}
+                  </Text>
+                ))}
               </View>
             )}
             <Text style={styles.orderText}>
@@ -168,18 +184,6 @@ const OrderHistoryScreen = () => {
     </View>
   );
 
-  // const handleRefresh = async () => {
-  //   setLoading(true);
-  //   const userToken = await AsyncStorage.getItem('userToken');
-  //   if (userToken) {
-  //     const decodedToken = jwtDecode<CustomJwtPayload>(userToken);
-  //     const userId = decodedToken.userId;
-  //     const orderHistory = await getOrdersHistoryByUserId(userId);
-  //     setOrders(orderHistory.data);
-  //   }
-  //   setLoading(false);
-  // };
-
   return (
     <View style={styles.container}>
       {loading ? (
@@ -193,15 +197,12 @@ const OrderHistoryScreen = () => {
           keyExtractor={item => item.orderId.toString()}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          onRefresh={handleRefresh} // Attach the refresh function
+          refreshing={refreshing} // Control the refreshing state
         />
       ) : (
         <Text style={styles.noOrdersText}>No orders found</Text>
       )}
-
-      {/* <TouchableOpacity style={styles.refreshButton} onPress={handleRefresh}>
-        <MaterialIcons name="refresh" size={24} color="white" />
-        <Text style={styles.refreshButtonText}>Refresh</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };

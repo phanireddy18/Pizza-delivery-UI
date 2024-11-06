@@ -108,7 +108,6 @@ export default function LoginScreen() {
         width: '100%',
         justifyContent: 'center',
         opacity: 0.4,
-        // the image height
       }}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>

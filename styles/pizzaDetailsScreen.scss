@@ -1,0 +1,143 @@
+.container {
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f8f8;
+    align-items: flex-start; // Align all text elements to the left
+}
+
+.image {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    align-self: center;
+    object-fit: cover;
+}
+
+.name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    align-self: flex-start; // Left-align
+}
+
+.description {
+    font-size: 16px;
+    color: #000000cc;
+    text-align: left; // Left-align text
+    margin-bottom: 10px;
+    align-self: flex-start;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e63946;
+    margin-bottom: 10px;
+    align-self: flex-start; // Left-align
+}
+
+.size {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+    align-self: flex-start; // Left-align
+}
+
+.loader {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.description_container {
+    height: 320px;
+    width: 100%;
+    margin: 10px 0px;
+    // border: 1px solid black;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background-color: #cccccc2c;
+}
+
+.priceContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Add button */
+.addButton {
+    background-color: #4CAF50;
+    padding: 7px 20px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.addButtonText {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Counter button styles */
+.counterContainer {
+    flex-direction: row;
+    align-items: center;
+}
+
+.counterButton {
+    background-color: #4CAF50;
+    padding: 3px 10px;
+    border-radius: 5px;
+    margin: 0 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.counterButtonText {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.itemCount {
+    font-size: 18px;
+    margin: 0 10px;
+}
+
+
+.cartCard {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 100%;
+  }
+  
+  .cartCardContent {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .cartText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .viewCartButton {
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  .viewCartButtonText {
+    color: #fff;
+    font-size: 16px;
+  }

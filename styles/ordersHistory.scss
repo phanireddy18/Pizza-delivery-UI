@@ -30,6 +30,7 @@
 
 .orderDetails {
   flex: 1;
+  // border: 1px solid red;
 }
 
 .orderText {
@@ -107,10 +108,34 @@
 }
 .ordersData {
   margin: 10px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 }
 .orderIdIconContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 5px;
+}
+
+.dataContainer {
+  width: 70%;
+}
+.imageStyles {
+  height: 80px;
+  width: 80px;
+  border-radius: 40px;
+}
+.pizzaList {
+  margin-bottom: 10px;
+}
+.dateTotalContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.orderIdText {
+  font-weight: bold;
 }

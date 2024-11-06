@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -14,11 +15,6 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = ({navigation}: any) => {
   const handleLogout = () => {
-    console.log('--------------------->');
-    AsyncStorage.removeItem('userToken');
-    navigation.dispatch(DrawerActions.closeDrawer());
-    navigation.replace('Login');
-
     Alert.alert(
       'Logout',
       'Are you sure you want to logout?',
@@ -47,7 +43,6 @@ const DrawerNavigation = ({navigation}: any) => {
           name="Home"
           component={PizzaListScreen}
           options={{
-            // eslint-disable-next-line react/no-unstable-nested-components
             drawerIcon: () => <Entypo name="home" size={22} color="#000" />,
             title: 'Home',
           }}
@@ -55,10 +50,8 @@ const DrawerNavigation = ({navigation}: any) => {
         <Drawer.Screen
           name="Logout"
           options={{
-            // eslint-disable-next-line react/no-unstable-nested-components
             drawerIcon: () => <Entypo name="log-out" size={22} color="#000" />,
             title: 'Logout',
-            // eslint-disable-next-line react/no-unstable-nested-components
             drawerLabel: () => (
               <View style={globalStyles.logout_container}>
                 <Text style={globalStyles.drawer_text}>Logout</Text>

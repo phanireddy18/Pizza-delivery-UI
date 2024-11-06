@@ -6,8 +6,10 @@ import {
   ActivityIndicator,
   Text,
   TouchableOpacity,
+  Image,
+  StyleSheet,
 } from 'react-native';
-import {Card, Title, Paragraph} from 'react-native-paper';
+import {Title, Paragraph} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import styles from '../../styles/pizzaListScreen.scss';
 import {getAllPizzas, Pizza} from '../services/pizzaService';
@@ -41,17 +43,29 @@ const PizzaListScreen = () => {
 
   const renderPizzaItem = ({item}: {item: Pizza}) => (
     <TouchableOpacity onPress={() => handleSelectPizza(item.pizzaId)}>
-      <Card style={styles.card}>
-        <Card.Cover source={{uri: item.imageUrl}} style={styles.cardImage} />
-        <Card.Content>
+      <View style={cardStyles.card}>
+        {/* <View style={styles.card}> */}
+        <View style={styles.cardImageContainer}>
+          <Image
+            source={{uri: item.imageUrl}}
+            style={styles.cardImage}
+            resizeMode="cover"
+          />
+        </View>
+
+        <View style={styles.cardContent}>
           <Title style={styles.cardTitle}>{item.name}</Title>
           <Paragraph style={styles.cardDescription}>
             {item.description}
           </Paragraph>
-          <Text style={styles.cardPrice}>${item.price}</Text>
-          <Text style={styles.cardSize}>Size: {item.size}</Text>
-        </Card.Content>
-      </Card>
+          <View style={styles.priceContainer}>
+            <Text style={styles.cardPrice}>${item.price}</Text>
+            <Text style={styles.cardSize}>
+              Size: <Text style={styles.sizeValue}>{item.size}</Text>
+            </Text>
+          </View>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 
@@ -71,5 +85,25 @@ const PizzaListScreen = () => {
     </View>
   );
 };
+
+const cardStyles = StyleSheet.create({
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+    borderRadius: 10,
+    overflow: 'hidden',
+    backgroundColor: 'white',
+    padding: 10,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+  },
+});
 
 export default PizzaListScreen;

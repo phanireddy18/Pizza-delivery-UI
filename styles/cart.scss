@@ -1,0 +1,32 @@
+.cartCard {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 100%;
+  }
+  
+  .cartCardContent {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .cartText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .viewCartButton {
+    background-color: #4CAF50;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  
+  .viewCartButtonText {
+    color: #fff;
+    font-size: 16px;
+   
+  }

@@ -15,6 +15,8 @@ import styles from '../../styles/pizzaListScreen.scss';
 import {getAllPizzas, Pizza} from '../services/pizzaService';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../type';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Cart from './component/Cart';
 
 const PizzaListScreen = () => {
   const navigation =
@@ -51,8 +53,17 @@ const PizzaListScreen = () => {
       setRefreshing(false); // End refreshing
     }
   };
+
+  // Navigate to Pizza Details screen
   const handleSelectPizza = (pizzaId: number) => {
-    navigation.navigate('pizzaDetails', {pizzaId: pizzaId});
+    navigation.navigate('PizzaDetails', {pizzaId: pizzaId});
+  };
+
+  const handleViewCart = () => {
+    console.log('Cart data:', Cart); // Log cart data to check if it's empty or contains undefined values
+    if (Cart && Cart.length > 0) {
+      navigation.navigate('CartScreen');
+    }
   };
 
   const renderPizzaItem = ({item}: {item: Pizza}) => {
@@ -81,9 +92,8 @@ const PizzaListScreen = () => {
       </TouchableOpacity>
     );
   };
-
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
@@ -91,13 +101,15 @@ const PizzaListScreen = () => {
           data={pizzas}
           renderItem={renderPizzaItem}
           keyExtractor={item => item.pizzaId.toString()}
-          contentContainerStyle={{paddingBottom: 20}}
+          contentContainerStyle={{paddingBottom: 80}} // Add padding to avoid overlap with the cart
           showsVerticalScrollIndicator={false}
-          onRefresh={handleRefresh} // Attach the refresh function
-          refreshing={refreshing} // Control the refreshing state
+          onRefresh={handleRefresh}
+          refreshing={refreshing}
         />
       )}
-    </View>
+      {loading ? '': ( <Cart onViewCart={handleViewCart }/>)}
+    
+    </SafeAreaView>
   );
 };
 
@@ -122,3 +134,4 @@ const cardStyles = StyleSheet.create({
 });
 
 export default PizzaListScreen;
+

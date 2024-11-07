@@ -6,13 +6,15 @@ import styles from '../../styles/cartScreenStyle.scss';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../type';
+import {useCart} from '../utils/CartContext';
 
-interface Pizza {
-  id: string;
+interface cartPizzas {
+  imageUrl: string;
+  itemTotal: number;
   name: string;
+  pizzaId: number;
   price: number;
   quantity: number;
-  imageUrl: string;
 }
 
 interface Offer {
@@ -25,29 +27,13 @@ interface Offer {
 const CartScreen = () => {
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
-  const [cart, setCart] = useState<Pizza[]>([
-    {
-      id: '1',
-      name: 'Margherita',
-      price: 10,
-      quantity: 1,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-    {
-      id: '2',
-      name: 'Pepperoni',
-      price: 12,
-      quantity: 1,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-    {
-      id: '3',
-      name: 'Veggie Delight',
-      price: 15,
-      quantity: 1,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-  ]);
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+
+  // const {cart, addToCart, removeFromCart} = useCart();
+
+  const {cart, updateQuantity} = useCart();
+
+  const [cartItems, setCartItems] = useState<cartPizzas[]>(cart);
 
   // Offer list as a constant since it’s not modified
   const offers: Offer[] = [
@@ -89,28 +75,40 @@ const CartScreen = () => {
     },
   ];
 
-  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-
-  const handleIncrement = (id: string) => {
-    setCart(prevCart =>
-      prevCart.map(item =>
-        item.id === id ? {...item, quantity: item.quantity + 1} : item,
+  const handleIncrement = (item: cartPizzas) => {
+    // Only update the quantity here, without calling addToCart
+    setCartItems(prevCart =>
+      prevCart.map(cartItem =>
+        cartItem.pizzaId === item.pizzaId
+          ? {...cartItem, quantity: cartItem.quantity + 1}
+          : cartItem,
       ),
     );
+    handleQuantityChange(item.pizzaId, item.quantity + 1);
   };
 
-  const handleDecrement = (id: string) => {
-    setCart(prevCart =>
-      prevCart.map(item =>
-        item.id === id && item.quantity > 1
-          ? {...item, quantity: item.quantity - 1}
-          : item,
+  const handleDecrement = (item: cartPizzas) => {
+    // Only update the quantity here, without calling addToCart
+    setCartItems(prevCart =>
+      prevCart.map(cartItem =>
+        cartItem.pizzaId === item.pizzaId && cartItem.quantity > 1
+          ? {...cartItem, quantity: cartItem.quantity - 1}
+          : cartItem,
       ),
     );
+    handleQuantityChange(item.pizzaId, item.quantity - 1);
   };
 
+  const handleQuantityChange = (pizzaId: number, newQuantity: number) => {
+    if (newQuantity < 1) {
+      return;
+    }
+    updateQuantity(pizzaId, newQuantity);
+  };
+
+  // Calculate totals
   const calculateTotal = () => {
-    const subtotal = cart.reduce(
+    const subtotal = cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
       0,
     );
@@ -127,18 +125,19 @@ const CartScreen = () => {
 
   const {subtotal, cgst, sgst, discount, total} = calculateTotal();
 
-  const renderCartItem = ({item}: {item: Pizza}) => (
+  // Render Cart Item
+  const renderCartItem = ({item}: {item: cartPizzas}) => (
     <View style={styles.cartItem}>
       <Image source={{uri: item.imageUrl}} style={styles.pizzaImage} />
       <View style={styles.pizzaDetails}>
         <Text style={styles.pizzaName}>{item.name}</Text>
-        <Text style={styles.pizzaPrice}>${item.price.toFixed(2)}</Text>
+        <Text style={styles.pizzaPrice}>${item.price}</Text>
         <View style={styles.quantityContainer}>
-          <TouchableOpacity onPress={() => handleDecrement(item.id)}>
+          <TouchableOpacity onPress={() => handleDecrement(item)}>
             <FontAwesome name="minus-circle" size={20} color="#ff6b6b" />
           </TouchableOpacity>
           <Text style={styles.quantityText}>{item.quantity}</Text>
-          <TouchableOpacity onPress={() => handleIncrement(item.id)}>
+          <TouchableOpacity onPress={() => handleIncrement(item)}>
             <FontAwesome name="plus-circle" size={20} color="#4CAF50" />
           </TouchableOpacity>
         </View>
@@ -149,6 +148,7 @@ const CartScreen = () => {
     </View>
   );
 
+  // Render Offer
   const renderOffer = ({item}: {item: Offer}) => (
     <TouchableOpacity
       style={[
@@ -164,13 +164,17 @@ const CartScreen = () => {
 
   return (
     <View style={styles.container}>
-      {cart.length > 0 ? (
+      {cartItems.length > 0 ? (
         <>
           <View style={styles.cartCard}>
             <FlatList
-              data={cart}
+              data={cartItems}
               renderItem={renderCartItem}
-              keyExtractor={item => item.id}
+              keyExtractor={item =>
+                item.pizzaId
+                  ? item.pizzaId.toString()
+                  : `${item.name}-${Math.random()}`
+              }
               ItemSeparatorComponent={() => <View style={styles.separator} />}
               contentContainerStyle={styles.cartList}
               showsVerticalScrollIndicator={false}
@@ -178,7 +182,6 @@ const CartScreen = () => {
           </View>
 
           <View>
-            {/* Offers Section */}
             <Text style={styles.offersHeading}>Available Offers</Text>
             <FlatList
               data={offers}
@@ -190,7 +193,6 @@ const CartScreen = () => {
             />
           </View>
 
-          {/* Summary and Buttons */}
           <View style={styles.bottomContainer}>
             <View style={styles.summaryContainer}>
               <View style={styles.summaryRow}>

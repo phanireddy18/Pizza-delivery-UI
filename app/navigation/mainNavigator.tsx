@@ -6,7 +6,7 @@ import DrawerNavigation from './drawerNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PizzaDetailsScreen from '../screen/pizzaDetailsScreen';
 import {RootStackParamList} from '../../type';
-import CartScreen from '../screen/CartScreen';
+import CartScreen from '../screen/cartScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -63,17 +63,12 @@ export default function MainNavigator() {
       <Stack.Screen
         name="PizzaDetails"
         component={PizzaDetailsScreen}
-        options={{headerShown: true,
-          title: '',
-        }}
-        
+        options={{headerShown: true, title: ''}}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="CartScreen"
         component={CartScreen}
-        options={{headerShown: true,
-          title: '',
-        }}
+        options={{headerShown: true, title: ''}}
       />
     </Stack.Navigator>
   );

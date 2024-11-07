@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AddressComponent from './component/AddressComponent';
 
 interface CustomJwtPayload extends JwtPayload {
   address: string;
@@ -235,10 +236,11 @@ const CartScreen = () => {
           <View style={styles.separator} />
           <View>
             {deliveryAddress && (
-              <View style={styles.addressContainer}>
-                <Text style={styles.addressText}>Delivery Address:</Text>
-                <Text style={styles.address}>{deliveryAddress}</Text>
-              </View>
+              // <View style={styles.addressContainer}>
+              //   <Text style={styles.addressText}>Delivery Address:</Text>
+              //   <Text style={styles.address}>{deliveryAddress}</Text>
+              // </View>
+              <AddressComponent deliveryAddress={deliveryAddress} />
             )}
             <View style={styles.separator} />
 

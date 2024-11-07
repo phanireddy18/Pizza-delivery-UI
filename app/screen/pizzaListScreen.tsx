@@ -67,7 +67,9 @@ const PizzaListScreen = () => {
 
   const renderPizzaItem = ({item}: {item: Pizza}) => {
     return (
-      <TouchableOpacity onPress={() => handleSelectPizza(item.pizzaId)}>
+      <TouchableOpacity
+        activeOpacity={0.6} // Reduces opacity when pressed
+        onPress={() => handleSelectPizza(item.pizzaId)}>
         <View style={cardStyles.card}>
           <View style={styles.cardImageContainer}>
             <Image

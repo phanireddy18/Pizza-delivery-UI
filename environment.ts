@@ -14,4 +14,7 @@ export const SCREEN_URL = {
 
   //Orders History
   GET_ORDERS_HISTORY: `${BASE_URL}/orders/user`,
+
+    //Place order
+  PLACE_ORDERS: `${BASE_URL}/orders`,
 };

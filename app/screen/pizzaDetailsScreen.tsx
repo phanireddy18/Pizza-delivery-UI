@@ -133,8 +133,6 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
   }
 
   const handleViewCart = () => {
-    // Navigate to the cart screen or perform any action
-    console.log('View Cart Pressed');
     navigation.navigate('CartScreen');
   };
 

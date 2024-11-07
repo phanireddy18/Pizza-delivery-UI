@@ -6,4 +6,7 @@ export type RootStackParamList = {
   PizzaListScreen: undefined;
   PizzaDetails: {pizzaId: number};
   Home: undefined;
+  PlaceOrderScreen:{orderId: number};
+  OrderFailedScreen:undefined;
+  ordersHistory:undefined;
 };

@@ -1,0 +1,42 @@
+.container {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: #2b7524;
+    padding: 20px;
+  }
+  
+  .messageContainer {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .congratsText {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .successText {
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .continueButton {
+    background-color: #ff6b6b;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  .continueButtonText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+  }
+  

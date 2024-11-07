@@ -35,3 +35,19 @@ export const getOrdersHistoryByUserId = async (
     throw error;
   }
 };
+
+
+interface OrderPayload {
+  pizzaItems: {pizzaId: number; quantity: number}[];
+  deliveryAddress: string;
+}
+
+export const placeOrder = async (orderPayload: OrderPayload) => {
+  try {
+    const response = await api.post(`${SCREEN_URL.PLACE_ORDERS}`, orderPayload);
+    return response.data; // Return the response data
+  } catch (error: any) {
+    // Handle errors and rethrow them for the component to catch
+    throw error.response ? error.response.data : new Error('Network Error');
+  }
+};

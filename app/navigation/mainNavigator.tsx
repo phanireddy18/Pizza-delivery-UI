@@ -1,12 +1,14 @@
-import React, {useEffect} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { useEffect } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screen/loginScreen';
 import RegistrationScreen from '../screen/registrationscreen';
 import DrawerNavigation from './drawerNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PizzaDetailsScreen from '../screen/pizzaDetailsScreen';
-import {RootStackParamList} from '../../type';
+import { RootStackParamList } from '../../type';
 import CartScreen from '../screen/cartScreen';
+import PlaceOrderScreen from '../screen/placeOrderScreen';
+import OrderFailedScreen from '../screen/orderFailedScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -45,28 +47,39 @@ export default function MainNavigator() {
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Register"
         component={RegistrationScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Drawer"
         component={DrawerNavigation}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="PizzaDetails"
         component={PizzaDetailsScreen}
-        options={{headerShown: true, title: ''}}
+        options={{ headerShown: true, title: '' }}
       />
       <Stack.Screen
         name="CartScreen"
         component={CartScreen}
-        options={{headerShown: true, title: ''}}
+        options={{ headerShown: true, title: '' }}
       />
+      <Stack.Screen
+        name="PlaceOrderScreen"
+        component={PlaceOrderScreen}
+        options={{ headerShown: false, title: '' }}
+      />
+      <Stack.Screen
+        name="OrderFailedScreen"
+        component={OrderFailedScreen}
+        options={{ headerShown: false, title: '' }}
+      />
+
     </Stack.Navigator>
   );
 }

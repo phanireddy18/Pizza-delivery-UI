@@ -1,12 +1,13 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, Image, TouchableOpacity, FlatList, Alert} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from '../../styles/cartScreenStyle.scss';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../type';
 import {useCart} from '../utils/CartContext';
+import { placeOrder } from '../services/ordersService';
 
 interface cartPizzas {
   imageUrl: string;
@@ -28,8 +29,9 @@ const CartScreen = () => {
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-  const {cart, updateQuantity, removeFromCart} = useCart();
+  const {cart, updateQuantity, removeFromCart, clearCart} = useCart();
   const [cartItems, setCartItems] = useState<cartPizzas[]>(cart);
+  
 
   // Offer list as a constant since it’s not modified
   const offers: Offer[] = [
@@ -108,6 +110,28 @@ const CartScreen = () => {
     updateQuantity(pizzaId, newQuantity);
   };
 
+  const handleOrder = async () => {
+    const orderPayload = {
+      pizzaItems: cart.map(item => ({
+        pizzaId: item.pizzaId,
+        quantity: item.quantity,
+      })),
+      deliveryAddress: '123 Pizza Street, Foodtown', // Hardcoded for now
+    };
+
+    try {
+      const response = await placeOrder(orderPayload);
+      console.log('Order Placed:******************', response);
+      Alert.alert('Success', 'Your order has been placed!');
+      setCartItems([]); // Clear local cart items
+      clearCart(); // Clear cart in context
+      navigation.navigate('PlaceOrderScreen', {orderId: response.orderId});
+    } catch (error: any) {
+      console.error('Order Failed:', error);
+      Alert.alert('Order Failed', error.message || 'Something went wrong');
+      navigation.navigate('OrderFailedScreen');
+    }
+  };
   // Calculate totals
   const calculateTotal = () => {
     const subtotal = cartItems.reduce(
@@ -227,7 +251,7 @@ const CartScreen = () => {
               <TouchableOpacity style={styles.cancelButton}>
                 <Text style={styles.cancelButtonText}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.orderButton}>
+              <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
                 <Text style={styles.orderButtonText}>Place Order</Text>
               </TouchableOpacity>
             </View>

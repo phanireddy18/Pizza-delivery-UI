@@ -1,0 +1,42 @@
+$primary-color: #ff3b30; // Red color for error messages
+$secondary-color: #555; // Text color for timer
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fff;
+  padding: 20px;
+  flex: 1;
+}
+
+.animation {
+  width: 200px; // Customize size
+  height: 200px; // Customize size
+}
+
+.messageContainer {
+  margin-top: 20px;
+}
+
+.messageText {
+  font-size: 30px;
+  font-weight: bold;
+  color: $primary-color;
+  text-align: center;
+}
+.paraText{
+  font-size: 18px;
+  color: $secondary-color;
+  text-align: center;
+}
+.timerContainer {
+  margin-top: 10px;
+}
+
+.timerText {
+  font-size: 18px;
+  color: $secondary-color;
+  text-align: center;
+}

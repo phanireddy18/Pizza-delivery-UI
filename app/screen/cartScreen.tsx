@@ -28,7 +28,7 @@ const CartScreen = () => {
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-  const {cart, updateQuantity} = useCart();
+  const {cart, updateQuantity, removeFromCart} = useCart();
   const [cartItems, setCartItems] = useState<cartPizzas[]>(cart);
 
   // Offer list as a constant since it’s not modified
@@ -84,15 +84,18 @@ const CartScreen = () => {
   };
 
   const handleDecrement = (item: cartPizzas) => {
-    // Only update the quantity here, without calling addToCart
-    setCartItems(prevCart =>
-      prevCart.map(cartItem =>
-        cartItem.pizzaId === item.pizzaId && cartItem.quantity > 1
-          ? {...cartItem, quantity: cartItem.quantity - 1}
-          : cartItem,
-      ),
-    );
-    handleQuantityChange(item.pizzaId, item.quantity - 1);
+    if (item.quantity > 1) {
+      setCartItems(prevCart =>
+        prevCart.map(cartItem =>
+          cartItem.pizzaId === item.pizzaId && cartItem.quantity > 1
+            ? {...cartItem, quantity: cartItem.quantity - 1}
+            : cartItem,
+        ),
+      );
+      handleQuantityChange(item.pizzaId, item.quantity - 1);
+    } else {
+      removeFromCart(item.pizzaId);
+    }
   };
 
   const handleQuantityChange = (pizzaId: number, newQuantity: number) => {

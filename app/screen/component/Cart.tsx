@@ -7,17 +7,17 @@ import styles from '../../../styles/cart.scss';
 const Cart = ({onViewCart}: {onViewCart: () => void}) => {
   const {cart} = useCart();
   // Calculate the number of objects (items) in the cart
-  const numberOfItems = cart.length;
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
 
-  if (numberOfItems === 0) {
+  if (totalItems === 0) {
     return null;
   }
 
   return (
     <View style={styles.cartCard}>
       <View style={styles.cartCardContent}>
-        <Text style={styles.cartText}>Total Items: {numberOfItems}</Text>
+        <Text style={styles.cartText}>Total Items: {totalItems}</Text>
         <TouchableOpacity style={styles.viewCartButton} onPress={onViewCart}>
           <Text style={styles.viewCartButtonText}>
             View Cart

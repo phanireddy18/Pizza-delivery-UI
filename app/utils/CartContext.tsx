@@ -49,14 +49,18 @@ export const CartProvider: React.FC = ({children}: any) => {
 
   const addToCart = (item: CartItem) => {
     setCart(prevCart => {
-      const existingItemIndex = prevCart.findIndex(cartItem => cartItem.pizzaId === item.pizzaId);
-      
+      const existingItemIndex = prevCart.findIndex(
+        cartItem => cartItem.pizzaId === item.pizzaId,
+      );
+
       if (existingItemIndex > -1) {
         const updatedCart = [...prevCart];
         updatedCart[existingItemIndex] = {
           ...updatedCart[existingItemIndex],
           quantity: updatedCart[existingItemIndex].quantity + item.quantity,
-          itemTotal: updatedCart[existingItemIndex].price * (updatedCart[existingItemIndex].quantity + item.quantity),
+          itemTotal:
+            updatedCart[existingItemIndex].price *
+            (updatedCart[existingItemIndex].quantity + item.quantity),
         };
         return updatedCart;
       } else {
@@ -91,7 +95,8 @@ export const CartProvider: React.FC = ({children}: any) => {
   };
 
   return (
-    <CartContext.Provider value={{cart, addToCart, removeFromCart, clearCart, updateQuantity}}>
+    <CartContext.Provider
+      value={{cart, addToCart, removeFromCart, clearCart, updateQuantity}}>
       {children}
     </CartContext.Provider>
   );

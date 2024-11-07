@@ -2,7 +2,8 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Drawer: undefined;
-  CartScreen:undefined;
+  CartScreen: undefined;
   PizzaListScreen: undefined;
-  PizzaDetails: {pizzaId: number}; // add any params here if needed
+  PizzaDetails: {pizzaId: number};
+  Home: undefined;
 };

@@ -16,8 +16,8 @@ import {getPizzaDetailsById} from '../services/pizzaService';
 import styles from '../../styles/pizzaDetailsScreen.scss';
 import RenderHTML from 'react-native-render-html';
 import Cart from './component/Cart';
-import { useCart } from '../utils/CartContext';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {useCart} from '../utils/CartContext';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 interface PizzaDetails {
   pizzaId: number;
@@ -37,8 +37,11 @@ type PizzaDetailsScreenRouteProp = RouteProp<
   'PizzaDetails'
 >;
 
-type PizzaDetailsScreenProps = {route: PizzaDetailsScreenRouteProp,};
-type CartScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CartScreen'>;
+type PizzaDetailsScreenProps = {route: PizzaDetailsScreenRouteProp};
+type CartScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'CartScreen'
+>;
 
 const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
   const navigation = useNavigation<CartScreenNavigationProp>();
@@ -82,17 +85,18 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
         quantity: 1,
         itemTotal: parseFloat(pizzaDetails.price), // Set initial item total as price
       };
-  
-      console.log('Adding to cart: ', cartItem);  // Log cart item to check imageUrl
-  
+
+      console.log('Adding to cart: ', cartItem); // Log cart item to check imageUrl
+
       addToCart(cartItem);
     }
   };
-  
 
   const handleRemoveFromCart = () => {
-    if (!pizzaDetails) return; // Ensure pizzaDetails is not null
-  
+    if (!pizzaDetails) {
+      return;
+    } // Ensure pizzaDetails is not null
+
     if (itemCount > 1) {
       addToCart({
         pizzaId: pizzaDetails.pizzaId,
@@ -106,14 +110,11 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
       removeFromCart(pizzaDetails.pizzaId);
     }
   };
-  
 
   useEffect(() => {
     const cartItem = cart.find(item => item.pizzaId === pizzaId);
     setItemCount(cartItem ? cartItem.quantity : 0);
-}, [cart, pizzaId]);
-
-
+  }, [cart, pizzaId]);
 
   if (loading) {
     return (
@@ -140,8 +141,6 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
     navigation.navigate('CartScreen');
   };
 
-
-
   return (
     <ScrollView
     style={styles.container}
@@ -150,7 +149,7 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       {/* Existing Components */}
-      
+
       <Image source={{uri: pizzaDetails.imageUrl}} style={styles.image} />
       <Text style={styles.name}>{pizzaDetails.name}</Text>
 
@@ -193,7 +192,7 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
       </ScrollView>
 
       {/* <Cart onViewCart={() => navigation.navigate('CartScreen')} /> */}
-      <Cart onViewCart={handleViewCart }/>
+      <Cart onViewCart={handleViewCart} />
     </ScrollView>
   );
 };

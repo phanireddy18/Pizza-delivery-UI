@@ -107,8 +107,10 @@ const PizzaListScreen = () => {
           refreshing={refreshing}
         />
       )}
-      {loading ? '': ( <Cart onViewCart={handleViewCart }/>)}
-    
+      <View>
+      {loading ? '' : ( <Cart onViewCart={handleViewCart }/>)}
+      </View>
+     
     </SafeAreaView>
   );
 };

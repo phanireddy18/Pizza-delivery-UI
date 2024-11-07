@@ -1,8 +1,7 @@
 .container {
     flex: 1;
-    padding: 20px;
     background-color: #f8f8f8;
-    align-items: flex-start; // Align all text elements to the left
+
 }
 
 .image {
@@ -54,6 +53,7 @@
 .scrollView {
     height: 300px; // Fixed height for scroll area
     width: 100%;   // Full width of container
+    margin-bottom: 20px;
   }
   
   .descriptionContainer {

@@ -144,6 +144,7 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
 
   return (
     <ScrollView
+    style={styles.container}
       contentContainerStyle={{alignItems: 'flex-start', padding: 20}}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

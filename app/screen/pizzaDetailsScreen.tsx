@@ -85,9 +85,6 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
         quantity: 1,
         itemTotal: parseFloat(pizzaDetails.price), // Set initial item total as price
       };
-
-      console.log('Adding to cart: ', cartItem); // Log cart item to check imageUrl
-
       addToCart(cartItem);
     }
   };
@@ -148,8 +145,6 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {/* Existing Components */}
-
       <Image source={{uri: pizzaDetails.imageUrl}} style={styles.image} />
       <Text style={styles.name}>{pizzaDetails.name}</Text>
 
@@ -190,8 +185,6 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
           }}
         />
       </ScrollView>
-
-      {/* <Cart onViewCart={() => navigation.navigate('CartScreen')} /> */}
       <Cart onViewCart={handleViewCart} />
     </ScrollView>
   );

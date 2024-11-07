@@ -15,6 +15,7 @@ interface CartContextType {
   addToCart: (item: CartItem) => void;
   removeFromCart: (pizzaId: number) => void;
   clearCart: () => void;
+  updateQuantity: (pizzaId: number, quantity: number) => void; // Add updateQuantity method
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -27,7 +28,7 @@ export const useCart = (): CartContextType => {
   return context;
 };
 
-export const CartProvider: React.FC = ({children}:any) => {
+export const CartProvider: React.FC = ({children}: any) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   // Load cart from AsyncStorage on app load
@@ -48,11 +49,9 @@ export const CartProvider: React.FC = ({children}:any) => {
 
   const addToCart = (item: CartItem) => {
     setCart(prevCart => {
-      // Check if the item already exists in the cart
       const existingItemIndex = prevCart.findIndex(cartItem => cartItem.pizzaId === item.pizzaId);
       
       if (existingItemIndex > -1) {
-        // If item exists, update the quantity and total
         const updatedCart = [...prevCart];
         updatedCart[existingItemIndex] = {
           ...updatedCart[existingItemIndex],
@@ -61,12 +60,27 @@ export const CartProvider: React.FC = ({children}:any) => {
         };
         return updatedCart;
       } else {
-        // Add new item to cart
         return [...prevCart, item];
       }
     });
   };
-  
+
+  // Update quantity for a specific item in the cart
+  const updateQuantity = (pizzaId: number, quantity: number) => {
+    setCart(prevCart => {
+      const updatedCart = prevCart.map(item => {
+        if (item.pizzaId === pizzaId) {
+          return {
+            ...item,
+            quantity,
+            itemTotal: item.price * quantity, // Recalculate item total based on quantity
+          };
+        }
+        return item;
+      });
+      return updatedCart;
+    });
+  };
 
   const removeFromCart = (pizzaId: number) => {
     setCart(prevCart => prevCart.filter(item => item.pizzaId !== pizzaId));
@@ -77,7 +91,7 @@ export const CartProvider: React.FC = ({children}:any) => {
   };
 
   return (
-    <CartContext.Provider value={{cart, addToCart, removeFromCart, clearCart}}>
+    <CartContext.Provider value={{cart, addToCart, removeFromCart, clearCart, updateQuantity}}>
       {children}
     </CartContext.Provider>
   );

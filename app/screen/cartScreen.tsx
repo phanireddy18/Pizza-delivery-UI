@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,12 @@ import {placeOrder} from '../services/ordersService';
 import ConfirmationDialog from './component/ConfirmationDialog';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import {jwtDecode, JwtPayload} from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface CustomJwtPayload extends JwtPayload {
+  address: string;
+}
 
 interface CartPizza {
   imageUrl: string;
@@ -40,10 +46,28 @@ const CartScreen = () => {
     useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const {cart, updateQuantity, removeFromCart, clearCart} = useCart();
-  const [cartItems, setCartItems] = useState<CartPizza[]>(cart);
 
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
   const [itemToRemove, setItemToRemove] = useState<CartPizza | null>(null);
+  const [deliveryAddress, setDeliveryAddress] = useState<string | null>(null); // State to store the address
+
+  useEffect(() => {
+    const fetchOrderHistory = async () => {
+      try {
+        const userToken = await AsyncStorage.getItem('userToken');
+        if (userToken) {
+          const decodedToken = jwtDecode<CustomJwtPayload>(userToken);
+          const address = decodedToken.address;
+          setDeliveryAddress(address); // Set the address in state
+        } else {
+          console.log('No user token found');
+        }
+      } catch (error) {
+        console.error('Failed to fetch order history', error);
+      }
+    };
+    fetchOrderHistory();
+  }, [deliveryAddress]);
 
   const offers: Offer[] = [
     {
@@ -110,13 +134,12 @@ const CartScreen = () => {
         pizzaId: item.pizzaId,
         quantity: item.quantity,
       })),
-      deliveryAddress: '123 Pizza Street, Foodtown', // Hardcoded for now
+      // deliveryAddress: '123 Pizza Street, Foodtown', // Hardcoded for now
+      deliveryAddress: deliveryAddress || 'No address available', // Use the fetched address or fallback message
     };
 
     try {
       const response = await placeOrder(orderPayload);
-      console.log('Order Placed:******************', response);
-      setCartItems([]); // Clear local cart items
       clearCart(); // Clear cart in context
       navigation.navigate('PlaceOrderScreen', {orderId: response.orderId});
     } catch (error: any) {
@@ -210,7 +233,15 @@ const CartScreen = () => {
             showsVerticalScrollIndicator={false}
           />
           <View style={styles.separator} />
-          <View style={styles.stickyContainer}>
+          <View>
+            {deliveryAddress && (
+              <View style={styles.addressContainer}>
+                <Text style={styles.addressText}>Delivery Address:</Text>
+                <Text style={styles.address}>{deliveryAddress}</Text>
+              </View>
+            )}
+            <View style={styles.separator} />
+
             <View style={styles.offersContentContainer}>
               <Text style={styles.offersHeading}>Offers</Text>
               <FlatList
@@ -287,10 +318,8 @@ const CartScreen = () => {
 const offerCardStyles = StyleSheet.create({
   offerCard: {
     backgroundColor: '#fff',
-    // padding: 16,
     margin: 10,
     borderRadius: 12,
-    marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.4,

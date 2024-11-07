@@ -17,17 +17,14 @@ export default function MainNavigator() {
   >(undefined);
 
   useEffect(() => {
-    console.log('MainNavigator useEffect triggered');
     const checkToken = async () => {
       try {
         const token = await AsyncStorage.getItem('userToken');
-        console.log('Token from AsyncStorage:', token);
         if (token) {
           setInitialRoute('Drawer'); // Set to 'Drawer' if token exists
-          console.log('Navigating to Drawer');
         } else {
           setInitialRoute('Login'); // Set to 'Login' if no token exists
-          console.log('Navigating to Login');
+
         }
       } catch (error) {
         console.error('Error checking token:', error);

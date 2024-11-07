@@ -60,7 +60,6 @@ const PizzaListScreen = () => {
   };
 
   const handleViewCart = () => {
-    console.log('Cart data:', Cart); // Log cart data to check if it's empty or contains undefined values
     if (Cart && Cart.length > 0) {
       navigation.navigate('CartScreen');
     }

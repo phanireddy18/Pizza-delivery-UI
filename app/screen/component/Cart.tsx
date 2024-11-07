@@ -6,7 +6,6 @@ import styles from '../../../styles/cart.scss';
 
 const Cart = ({onViewCart}: {onViewCart: () => void}) => {
   const {cart} = useCart();
-console.log('smallll  Cart data:################', cart);
   // Calculate the number of objects (items) in the cart
   const numberOfItems = cart.length;
 

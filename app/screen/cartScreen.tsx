@@ -87,7 +87,7 @@ const CartScreen = () => {
     if (item.quantity > 1) {
       setCartItems(prevCart =>
         prevCart.map(cartItem =>
-          cartItem.pizzaId === item.pizzaId && cartItem.quantity > 1
+          cartItem.pizzaId === item.pizzaId
             ? {...cartItem, quantity: cartItem.quantity - 1}
             : cartItem,
         ),
@@ -95,8 +95,11 @@ const CartScreen = () => {
       handleQuantityChange(item.pizzaId, item.quantity - 1);
     } else {
       removeFromCart(item.pizzaId);
+      // Immediately update local state to reflect removal
+      setCartItems(prevCart => prevCart.filter(cartItem => cartItem.pizzaId !== item.pizzaId));
     }
   };
+  
 
   const handleQuantityChange = (pizzaId: number, newQuantity: number) => {
     if (newQuantity < 1) {

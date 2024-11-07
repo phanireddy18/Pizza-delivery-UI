@@ -165,55 +165,83 @@
   font-weight: 600;
   color: #333;
   text-align: center;
+  margin-top: 5px;
+}
+.addressContainer {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.addressText {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
   margin-bottom: 5px;
 }
 
-.offerCard {
-  flex-direction: row;
-  align-items: center;
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 10px;
-  margin: 0px 10px;
-  border: 1px solid #888;
+.address {
+  font-size: 14px;
+  color: #555555;
+  line-height: 20px;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
-.offersContentContainer {
-  margin: 15px 0px;
+//address
+.address-container {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
-.selectedOfferCard {
-  border: #4caf50;
-  background-color: #f0f8e4;
+
+.address-header {
+  display: flex;
+  align-items: center;
 }
-.iconContainer {
-  width: 30px;
-  height: 30px;
-  background-color: #ffe6e1;
-  border-radius: 15px;
+
+.radio-button {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333333;
+  margin-right: 10px;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 12px;
-}
-.textContainer {
-  flex: 1;
-}
-.offerTitle {
-  font-size: 14px;
-  font-weight: 700;
-  color: #333;
-}
-.offerDescription {
-  font-size: 14px;
-  color: #666;
-}
-.offerDiscount {
-  font-size: 12px;
-  font-weight: 600;
-  color: #ff6347;
 }
 
-.stickyContainer {
-  // border: 1px solid red;
-  border-radius: 10px 10px 0px 0px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds the shadow effect */
+.selected-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #4caf50; /* Green color for selected state */
+}
+
+.unselected-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: transparent; /* Empty circle for unselected state */
+}
+
+.address-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.address {
+  font-size: 14px;
+  color: #555555;
+  line-height: 20px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }

@@ -1,15 +1,25 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, FlatList, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from '../../styles/cartScreenStyle.scss';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../type';
 import {useCart} from '../utils/CartContext';
-import { placeOrder } from '../services/ordersService';
+import {placeOrder} from '../services/ordersService';
+import ConfirmationDialog from './component/ConfirmationDialog';
+import Icon from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
 
-interface cartPizzas {
+interface CartPizza {
   imageUrl: string;
   itemTotal: number;
   name: string;
@@ -30,10 +40,11 @@ const CartScreen = () => {
     useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const {cart, updateQuantity, removeFromCart, clearCart} = useCart();
-  const [cartItems, setCartItems] = useState<cartPizzas[]>(cart);
-  
+  const [cartItems, setCartItems] = useState<CartPizza[]>(cart);
 
-  // Offer list as a constant since it’s not modified
+  const [showRemoveDialog, setShowRemoveDialog] = useState(false);
+  const [itemToRemove, setItemToRemove] = useState<CartPizza | null>(null);
+
   const offers: Offer[] = [
     {
       id: 'offer1',
@@ -73,41 +84,24 @@ const CartScreen = () => {
     },
   ];
 
-  const handleIncrement = (item: cartPizzas) => {
-    // Only update the quantity here, without calling addToCart
-    setCartItems(prevCart =>
-      prevCart.map(cartItem =>
-        cartItem.pizzaId === item.pizzaId
-          ? {...cartItem, quantity: cartItem.quantity + 1}
-          : cartItem,
-      ),
-    );
-    handleQuantityChange(item.pizzaId, item.quantity + 1);
-  };
+  const handleIncrement = (item: CartPizza) =>
+    updateQuantity(item.pizzaId, item.quantity + 1);
 
-  const handleDecrement = (item: cartPizzas) => {
-    if (item.quantity > 1) {
-      setCartItems(prevCart =>
-        prevCart.map(cartItem =>
-          cartItem.pizzaId === item.pizzaId
-            ? {...cartItem, quantity: cartItem.quantity - 1}
-            : cartItem,
-        ),
-      );
-      handleQuantityChange(item.pizzaId, item.quantity - 1);
+  const handleDecrement = (item: CartPizza) => {
+    if (item.quantity === 1) {
+      setItemToRemove(item);
+      setShowRemoveDialog(true);
     } else {
-      removeFromCart(item.pizzaId);
-      // Immediately update local state to reflect removal
-      setCartItems(prevCart => prevCart.filter(cartItem => cartItem.pizzaId !== item.pizzaId));
+      updateQuantity(item.pizzaId, item.quantity - 1);
     }
   };
-  
 
-  const handleQuantityChange = (pizzaId: number, newQuantity: number) => {
-    if (newQuantity < 1) {
-      return;
+  const handleConfirmRemove = () => {
+    if (itemToRemove) {
+      removeFromCart(itemToRemove.pizzaId);
+      setShowRemoveDialog(false);
+      setItemToRemove(null); // Reset itemToRemove
     }
-    updateQuantity(pizzaId, newQuantity);
   };
 
   const handleOrder = async () => {
@@ -122,37 +116,37 @@ const CartScreen = () => {
     try {
       const response = await placeOrder(orderPayload);
       console.log('Order Placed:******************', response);
-      Alert.alert('Success', 'Your order has been placed!');
       setCartItems([]); // Clear local cart items
       clearCart(); // Clear cart in context
       navigation.navigate('PlaceOrderScreen', {orderId: response.orderId});
     } catch (error: any) {
       console.error('Order Failed:', error);
-      Alert.alert('Order Failed', error.message || 'Something went wrong');
       navigation.navigate('OrderFailedScreen');
     }
   };
   // Calculate totals
+  const handleCancelRemove = () => {
+    setShowRemoveDialog(false);
+    setItemToRemove(null); // Reset itemToRemove
+  };
+
   const calculateTotal = () => {
-    const subtotal = cartItems.reduce(
+    const subtotal = cart.reduce(
       (total, item) => total + item.price * item.quantity,
       0,
     );
-
     const discount = selectedOffer
       ? subtotal * (selectedOffer.discountPercentage / 100)
       : 0;
     const cgst = (subtotal - discount) * 0.05;
     const sgst = (subtotal - discount) * 0.05;
     const total = subtotal - discount + cgst + sgst;
-
     return {subtotal, cgst, sgst, discount, total};
   };
 
   const {subtotal, cgst, sgst, discount, total} = calculateTotal();
 
-  // Render Cart Item
-  const renderCartItem = ({item}: {item: cartPizzas}) => (
+  const renderCartItem = ({item}: {item: CartPizza}) => (
     <View style={styles.cartItem}>
       <Image source={{uri: item.imageUrl}} style={styles.pizzaImage} />
       <View style={styles.pizzaDetails}>
@@ -174,86 +168,97 @@ const CartScreen = () => {
     </View>
   );
 
-  // Render Offer
   const renderOffer = ({item}: {item: Offer}) => (
     <TouchableOpacity
       style={[
-        styles.offerCard,
-        selectedOffer?.id === item.id && styles.selectedOfferCard,
+        offerCardStyles.offerCard,
+        selectedOffer?.id === item.id && offerCardStyles.selectedOfferCard,
       ]}
       onPress={() => setSelectedOffer(item)}>
-      <Text style={styles.offerTitle}>{item.title}</Text>
-      <Text style={styles.offerDescription}>{item.description}</Text>
-      <Text style={styles.offerDiscount}>Save {item.discountPercentage}%</Text>
+      <LinearGradient
+        colors={['#f8cdda', '#966e2e']}
+        style={offerCardStyles.cardGradient}>
+        <View style={offerCardStyles.iconContainer}>
+          <Icon
+            name={item.discountPercentage > 0 ? 'pricetag' : 'gift'}
+            size={20}
+            color={selectedOffer?.id === item.id ? '#a51919' : '#ff6347'}
+          />
+        </View>
+        <View style={offerCardStyles.textContainer}>
+          <Text style={offerCardStyles.offerTitle}>{item.title}</Text>
+          <Text style={offerCardStyles.offerDescription}>
+            {item.description}
+          </Text>
+          <Text style={offerCardStyles.offerDiscount}>
+            Save {item.discountPercentage}%
+          </Text>
+        </View>
+      </LinearGradient>
     </TouchableOpacity>
   );
-
   return (
-    <View style={styles.container}>
-      {cartItems.length > 0 ? (
+    <View style={styles.cartCard}>
+      {cart.length > 0 ? (
         <>
-          <View style={styles.cartCard}>
-            <FlatList
-              data={cartItems}
-              renderItem={renderCartItem}
-              keyExtractor={item =>
-                item.pizzaId
-                  ? item.pizzaId.toString()
-                  : `${item.name}-${Math.random()}`
-              }
-              ItemSeparatorComponent={() => <View style={styles.separator} />}
-              contentContainerStyle={styles.cartList}
-              showsVerticalScrollIndicator={false}
-            />
-          </View>
-
-          <View>
-            <Text style={styles.offersHeading}>Available Offers</Text>
-            <FlatList
-              data={offers}
-              renderItem={renderOffer}
-              keyExtractor={item => item.id}
-              horizontal
-              contentContainerStyle={styles.offersContainer}
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
-
-          <View style={styles.bottomContainer}>
-            <View style={styles.summaryContainer}>
-              <View style={styles.summaryRow}>
-                <Text style={styles.summaryText}>Subtotal:</Text>
-                <Text style={styles.summaryValue}>${subtotal.toFixed(2)}</Text>
-              </View>
-              {selectedOffer && (
+          <FlatList
+            data={cart}
+            renderItem={renderCartItem}
+            keyExtractor={item => item.pizzaId.toString()}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            contentContainerStyle={styles.cartList}
+            showsVerticalScrollIndicator={false}
+          />
+          <View style={styles.separator} />
+          <View style={styles.stickyContainer}>
+            <View style={styles.offersContentContainer}>
+              <Text style={styles.offersHeading}>Offers</Text>
+              <FlatList
+                data={offers}
+                renderItem={renderOffer}
+                keyExtractor={item => item.id}
+                horizontal
+                contentContainerStyle={styles.offersContainer}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+            <View style={styles.separator} />
+            <View style={styles.bottomContainer}>
+              <View style={styles.summaryContainer}>
                 <View style={styles.summaryRow}>
-                  <Text style={styles.summaryText}>Discount:</Text>
+                  <Text style={styles.summaryText}>Subtotal:</Text>
                   <Text style={styles.summaryValue}>
-                    -${discount.toFixed(2)}
+                    ${subtotal.toFixed(2)}
                   </Text>
                 </View>
-              )}
-              <View style={styles.summaryRow}>
-                <Text style={styles.summaryText}>CGST (5%):</Text>
-                <Text style={styles.summaryValue}>${cgst.toFixed(2)}</Text>
+                {selectedOffer && (
+                  <View style={styles.summaryRow}>
+                    <Text style={styles.summaryText}>Discount:</Text>
+                    <Text style={styles.summaryValue}>
+                      -${discount.toFixed(2)}
+                    </Text>
+                  </View>
+                )}
+                <View style={styles.summaryRow}>
+                  <Text style={styles.summaryText}>CGST (5%):</Text>
+                  <Text style={styles.summaryValue}>${cgst.toFixed(2)}</Text>
+                </View>
+                <View style={styles.summaryRow}>
+                  <Text style={styles.summaryText}>SGST (5%):</Text>
+                  <Text style={styles.summaryValue}>${sgst.toFixed(2)}</Text>
+                </View>
+                <View style={styles.summaryRow}>
+                  <Text style={styles.totalText}>Total:</Text>
+                  <Text style={styles.totalValue}>${total.toFixed(2)}</Text>
+                </View>
               </View>
-              <View style={styles.summaryRow}>
-                <Text style={styles.summaryText}>SGST (5%):</Text>
-                <Text style={styles.summaryValue}>${sgst.toFixed(2)}</Text>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.orderButton}
+                  onPress={handleOrder}>
+                  <Text style={styles.orderButtonText}>Place Order</Text>
+                </TouchableOpacity>
               </View>
-              <View style={styles.summaryRow}>
-                <Text style={styles.totalText}>Total:</Text>
-                <Text style={styles.totalValue}>${total.toFixed(2)}</Text>
-              </View>
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.cancelButton}>
-                <Text style={styles.cancelButtonText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
-                <Text style={styles.orderButtonText}>Place Order</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </>
@@ -267,8 +272,68 @@ const CartScreen = () => {
           </TouchableOpacity>
         </View>
       )}
+
+      <ConfirmationDialog
+        visible={showRemoveDialog}
+        onConfirm={handleConfirmRemove}
+        onCancel={handleCancelRemove}
+        message="Are you sure you want to remove this item from your cart?"
+        title={''}
+      />
     </View>
   );
 };
+
+const offerCardStyles = StyleSheet.create({
+  offerCard: {
+    backgroundColor: '#fff',
+    // padding: 16,
+    margin: 10,
+    borderRadius: 12,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  // The gradient will be applied here:
+  cardGradient: {
+    padding: 16,
+    flex: 1,
+    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  selectedOfferCard: {
+    borderColor: '#a51919',
+    borderWidth: 1,
+  },
+  iconContainer: {
+    marginRight: 16,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 50,
+    padding: 8,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  offerTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  offerDescription: {
+    fontSize: 14,
+    color: '#555',
+  },
+  offerDiscount: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#3e3938',
+  },
+});
 
 export default CartScreen;

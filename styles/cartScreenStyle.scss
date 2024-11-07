@@ -1,0 +1,220 @@
+.container {
+  flex: 1;
+  background-color: #f3f3f3;
+}
+
+.cartCard {
+  background-color: white;
+  margin: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  flex: 1;
+  height: 400px; /* Increased height for cart section */
+}
+
+.cartList {
+  padding-bottom: 20px;
+}
+
+.cartItem {
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.separator {
+  border-bottom-width: 1;
+  border-color: #d3d3d3;
+  border-style: dashed;
+}
+
+.pizzaImage {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  margin-right: 15px;
+}
+
+.pizzaDetails {
+  flex: 1;
+}
+
+.pizzaName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.pizzaPrice {
+  font-size: 14px;
+  color: #888;
+}
+
+.quantityContainer {
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.quantityText {
+  font-size: 16px;
+}
+
+.itemTotal {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.bottomContainer {
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.summaryContainer {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.buttonContainer {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cancelButton {
+  background-color: #ff6b6b;
+  padding: 15px;
+  border-radius: 10px;
+  flex: 1;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.cancelButtonText {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.orderButton {
+  background-color: #4caf50;
+  padding: 15px;
+  border-radius: 10px;
+  flex: 1;
+  align-items: center;
+}
+
+.orderButtonText {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.summaryRow {
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.summaryText {
+  font-size: 16px;
+  color: #666;
+}
+
+.summaryValue {
+  font-size: 16px;
+  color: #666;
+}
+
+.totalText {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.totalValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.emptyCartContainer {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.emptyCartText {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.selectItemsButton {
+  background-color: #4caf50;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.selectItemsButtonText {
+  color: #fff;
+  font-size: 16px;
+}
+
+/* === New Offer Section Styles === */
+
+.offerCard {
+  background-color: white;
+  border-radius: 10px;
+  padding: 12px;
+  margin: 8px;
+  width: 200px;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid red;
+}
+
+.selectedOfferCard {
+  border: 2px solid #4caf50;
+  background-color: #f0f8e4;
+}
+
+.offerTitle {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.offerDescription {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.offerDiscount {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4caf50;
+}
+
+.offersContainer {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+.offersHeading {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}

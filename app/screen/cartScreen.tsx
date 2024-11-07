@@ -28,11 +28,7 @@ const CartScreen = () => {
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList, 'Home'>>();
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-
-  // const {cart, addToCart, removeFromCart} = useCart();
-
   const {cart, updateQuantity} = useCart();
-
   const [cartItems, setCartItems] = useState<cartPizzas[]>(cart);
 
   // Offer list as a constant since it’s not modified

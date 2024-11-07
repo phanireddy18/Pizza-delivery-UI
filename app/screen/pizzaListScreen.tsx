@@ -15,7 +15,7 @@ import styles from '../../styles/pizzaListScreen.scss';
 import {getAllPizzas, Pizza} from '../services/pizzaService';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../type';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Cart from './component/Cart';
 
 const PizzaListScreen = () => {
@@ -106,10 +106,7 @@ const PizzaListScreen = () => {
           refreshing={refreshing}
         />
       )}
-      <View>
-      {loading ? '' : ( <Cart onViewCart={handleViewCart }/>)}
-      </View>
-     
+      <View>{loading ? '' : <Cart onViewCart={handleViewCart} />}</View>
     </SafeAreaView>
   );
 };
@@ -135,4 +132,3 @@ const cardStyles = StyleSheet.create({
 });
 
 export default PizzaListScreen;
-

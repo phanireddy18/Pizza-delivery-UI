@@ -1,15 +1,7 @@
-.container {
-  flex: 1;
-  background-color: #f3f3f3;
-}
-
 .cartCard {
   background-color: white;
-  margin: 20px;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 10px;
   flex: 1;
-  height: 400px; /* Increased height for cart section */
 }
 
 .cartList {
@@ -19,7 +11,7 @@
 .cartItem {
   flex-direction: row;
   align-items: center;
-  padding: 10px 0;
+  margin: 10px;
 }
 
 .separator {
@@ -40,7 +32,7 @@
 }
 
 .pizzaName {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #333;
 }
@@ -58,20 +50,17 @@
 }
 
 .quantityText {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .itemTotal {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #333;
 }
 
 .bottomContainer {
-  padding: 15px;
-  background-color: white;
-  border-radius: 10px;
-  margin: 20px;
+  margin-top: 20px;
 }
 
 .summaryContainer {
@@ -80,8 +69,10 @@
 }
 
 .buttonContainer {
-  flex-direction: row;
-  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -102,10 +93,11 @@
 
 .orderButton {
   background-color: #4caf50;
-  padding: 15px;
+  padding: 10px;
   border-radius: 10px;
   flex: 1;
   align-items: center;
+  width: 100%;
 }
 
 .orderButtonText {
@@ -121,23 +113,23 @@
 }
 
 .summaryText {
-  font-size: 16px;
+  font-size: 13px;
   color: #666;
 }
 
 .summaryValue {
-  font-size: 16px;
+  font-size: 13px;
   color: #666;
 }
 
 .totalText {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   color: #333;
 }
 
 .totalValue {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   color: #333;
 }
@@ -168,52 +160,60 @@
 
 /* === New Offer Section Styles === */
 
-.offerCard {
-  background-color: white;
-  border-radius: 10px;
-  padding: 12px;
-  margin: 8px;
-  width: 200px;
-  height: 100px;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease-in-out;
-}
-
-.selectedOfferCard {
-  border: 2px solid #4caf50;
-  background-color: #f0f8e4;
-}
-
-.offerTitle {
+.offersHeading {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   color: #333;
+  text-align: center;
   margin-bottom: 5px;
 }
 
-.offerDescription {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.offerDiscount {
-  font-size: 14px;
-  font-weight: 600;
-  color: #4caf50;
-}
-
-.offersContainer {
+.offerCard {
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 10px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 0px 10px;
+  border: 1px solid #888;
 }
-.offersHeading {
-  font-size: 16px;
+
+.offersContentContainer {
+  margin: 15px 0px;
+}
+.selectedOfferCard {
+  border: #4caf50;
+  background-color: #f0f8e4;
+}
+.iconContainer {
+  width: 30px;
+  height: 30px;
+  background-color: #ffe6e1;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+.textContainer {
+  flex: 1;
+}
+.offerTitle {
+  font-size: 14px;
   font-weight: 700;
   color: #333;
-  text-align: center;
+}
+.offerDescription {
+  font-size: 14px;
+  color: #666;
+}
+.offerDiscount {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ff6347;
+}
+
+.stickyContainer {
+  // border: 1px solid red;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds the shadow effect */
 }

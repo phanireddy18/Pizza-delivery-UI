@@ -12,14 +12,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../../styles/globalStyle.scss';
 import OrderHistoryScreen from '../screen/orderHistoryScreen';
-import { useCart } from '../utils/CartContext';
+import {useCart} from '../utils/CartContext';
 
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import CartIconWithIndicator from '../screen/component/CartIndicator';
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = ({navigation}: any) => {
-  const { clearCart} = useCart();
+  const {clearCart} = useCart();
   const handleLogout = () => {
     Alert.alert(
       'Logout',
@@ -57,7 +56,7 @@ const DrawerNavigation = ({navigation}: any) => {
               <TouchableOpacity
                 onPress={() => navigation.navigate('CartScreen')}
                 style={{marginRight: 15}}>
-                <Ionicons name="bag" size={24} color="#a2aa42" />
+                <CartIconWithIndicator />
               </TouchableOpacity>
             ),
           }}

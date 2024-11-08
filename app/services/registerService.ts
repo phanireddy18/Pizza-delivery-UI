@@ -15,6 +15,8 @@ export const registerService = async (data: RegisterData): Promise<any> => {
       `${AUTHENTICATION_URL.REGISTER_API_URL}`,
       data,
     );
+    console.log('data------>', response.data);
+
     return response.data;
   } catch (error) {
     console.error('Error during signup:', error);

@@ -34,10 +34,15 @@
   padding: 0 8px;
   height: 50px;
   margin-bottom: 10px;
+  // width: 100%;
 }
-.passwordInput{
+.passwordInput {
   background-color: transparent;
   color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
 }
 .button {
   background-color: #4caf50;
@@ -66,4 +71,10 @@
 }
 .registerText1 {
   color: #fff;
+}
+.iconContainer {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

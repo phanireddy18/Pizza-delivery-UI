@@ -180,16 +180,20 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
         )}
       </View>
 
-      <View style={[styles.descriptionContainer]}>
-          <RenderHTML
-            contentWidth={300}
-            source={{html: pizzaDetails?.longDescription}}
-            tagsStyles={{
-              p: { fontSize: 16, color: '#333' },
-              h1: { fontSize: 22, fontWeight: 'bold' },
-            }}
-          />
-        </View>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.descriptionContainer}
+        showsVerticalScrollIndicator={false}>
+        <RenderHTML
+          contentWidth={300}
+          source={{html: pizzaDetails?.longDescription}}
+          tagsStyles={{
+            p: {fontSize: 16, color: '#333'},
+            h1: {fontSize: 22, fontWeight: 'bold'},
+            h2: {fontSize: 20, fontWeight: 'bold'},
+          }}
+        />
+      </ScrollView>
         </ScrollView>
       {cartVisible && (
         <View style={styles.cartContainer}>

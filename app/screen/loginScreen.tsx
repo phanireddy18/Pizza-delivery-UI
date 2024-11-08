@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -30,6 +31,7 @@ export default function LoginScreen() {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false); // Loading state
   const [errorMessage, setErrorMessage] = useState('');
+  const {height, width} = Dimensions.get('window');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -111,8 +113,8 @@ export default function LoginScreen() {
       }}
       imageStyle={{
         resizeMode: 'cover',
-        height: '100vh',
-        width: '100%',
+        height: height,
+        width: width,
         justifyContent: 'center',
         opacity: 0.4,
       }}>

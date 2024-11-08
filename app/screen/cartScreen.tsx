@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
-  ActivityIndicator,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from '../../styles/cartScreenStyle.scss';
@@ -51,10 +50,7 @@ const CartScreen = () => {
 
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
   const [itemToRemove, setItemToRemove] = useState<CartPizza | null>(null);
-  const [deliveryAddress, setDeliveryAddress] = useState<string | null>(null);
-
-  const [loading, setLoading] = useState(false);
-  const [loaderMessage, setLoaderMessage] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState<string | null>(null); // State to store the address
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
@@ -127,31 +123,11 @@ const CartScreen = () => {
 
   const handleConfirmRemove = () => {
     if (itemToRemove) {
-      // Start loading with a message
-      setLoading(true);
-      setLoaderMessage(
-        'Updating your cart... Bringing you back to the pizzas shortly.',
-      );
-
-      // Remove the item from the cart
       removeFromCart(itemToRemove.pizzaId);
       setShowRemoveDialog(false);
-      setItemToRemove(null);
-
-      // Delay for 3 seconds before navigating to Home
-      setTimeout(() => {
-        setLoading(false);
-        navigation.navigate('Home'); // Navigate to Home screen
-      }, 3000);
+      setItemToRemove(null); // Reset itemToRemove
     }
   };
-
-  const renderLoader = () => (
-    <View style={styles.loaderContainer}>
-      <ActivityIndicator size="large" color="#ff6b6b" />
-      <Text style={styles.loaderMessage}>{loaderMessage}</Text>
-    </View>
-  );
 
   const handleOrder = async () => {
     const orderPayload = {
@@ -246,9 +222,7 @@ const CartScreen = () => {
   );
   return (
     <View style={styles.cartCard}>
-      {loading ? (
-        renderLoader() // Show loader if `loading` is true
-      ) : cart.length > 0 ? (
+      {cart.length > 0 ? (
         <>
           <FlatList
             data={cart}

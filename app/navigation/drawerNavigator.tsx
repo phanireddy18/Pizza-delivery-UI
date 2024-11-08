@@ -15,7 +15,6 @@ import OrderHistoryScreen from '../screen/orderHistoryScreen';
 import {useCart} from '../utils/CartContext';
 
 import CartIconWithIndicator from '../screen/component/CartIndicator';
-import CompleteOrderButton from '../screen/component/AnimatedPlaceOrder';
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = ({navigation}: any) => {
@@ -71,14 +70,7 @@ const DrawerNavigation = ({navigation}: any) => {
             title: 'Your orders',
           }}
         />
-        <Drawer.Screen
-          name="Animation"
-          component={CompleteOrderButton}
-          options={{
-            drawerIcon: () => <Entypo name="list" size={22} color="#000" />,
-            title: 'Animation',
-          }}
-        />
+
         <Drawer.Screen
           name="Logout"
           options={{

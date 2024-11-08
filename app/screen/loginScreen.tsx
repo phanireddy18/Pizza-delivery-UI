@@ -126,7 +126,7 @@ export default function LoginScreen() {
         <TextInput
           style={[styles.input, emailError ? styles.inputError : null]}
           placeholder="Email"
-          placeholderTextColor="#888"
+          placeholderTextColor="#fff"
           value={email}
           onChangeText={text => {
             setEmail(text);
@@ -149,7 +149,7 @@ export default function LoginScreen() {
           <TextInput
             style={styles.passwordInput}
             placeholder="Password"
-            placeholderTextColor="#888"
+            placeholderTextColor="#fff"
             value={password}
             onChangeText={text => {
               setPassword(text);
@@ -165,7 +165,7 @@ export default function LoginScreen() {
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               size={20}
-              color="#888"
+              color="#fff"
             />
           </TouchableOpacity>
         </View>

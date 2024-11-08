@@ -5,15 +5,14 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import PizzaListScreen from '../screen/pizzaListScreen';
 import 'react-native-gesture-handler';
-import {Alert, Text, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DrawerActions} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../../styles/globalStyle.scss';
 import OrderHistoryScreen from '../screen/orderHistoryScreen';
-
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = ({navigation}: any) => {
@@ -48,6 +47,13 @@ const DrawerNavigation = ({navigation}: any) => {
           options={{
             drawerIcon: () => <Entypo name="home" size={22} color="#000" />,
             title: 'Home',
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('CartScreen')}
+                style={{marginRight: 15}}>
+                <Ionicons name="bag" size={24} color="#a2aa42" />
+              </TouchableOpacity>
+            ),
           }}
         />
 
@@ -62,7 +68,9 @@ const DrawerNavigation = ({navigation}: any) => {
         <Drawer.Screen
           name="Logout"
           options={{
-            drawerIcon: () => <AntDesign name="logout" size={22} color="#000" />,
+            drawerIcon: () => (
+              <AntDesign name="logout" size={22} color="#000" />
+            ),
             title: 'Logout',
             drawerLabel: () => (
               <View style={globalStyles.logout_container}>

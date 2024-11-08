@@ -245,3 +245,22 @@
   word-wrap: break-word;
   white-space: pre-wrap;
 }
+
+.loaderContainer {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(171, 168, 168, 0.3);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 10px;
+}
+.loaderMessage {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #000000;
+  text-align: center;
+}

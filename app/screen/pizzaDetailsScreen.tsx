@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
@@ -18,7 +19,7 @@ import RenderHTML from 'react-native-render-html';
 import Cart from './component/Cart';
 import {useCart} from '../utils/CartContext';
 import {StackNavigationProp} from '@react-navigation/stack';
-import { KeyboardAvoidingView } from 'react-native';
+import {KeyboardAvoidingView} from 'react-native';
 
 // Define types for pizza details and route/navigation props
 interface PizzaDetails {
@@ -53,7 +54,7 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [itemCount, setItemCount] = useState<number>(0);
-  const [cartVisible, setCartVisible] = React.useState(true); 
+  const [cartVisible] = React.useState(true);
 
   const fetchPizzaDetails = useCallback(async () => {
     try {
@@ -141,56 +142,56 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
 
   return (
     <KeyboardAvoidingView
-    style={styles.container}
-    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-  >
-    <ScrollView
       style={styles.container}
-      contentContainerStyle={[
-        styles.contentContainer,
-        cartVisible && { marginBottom: 80 }, // Reserve space for the fixed cart
-      ]}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <Image source={{uri: pizzaDetails.imageUrl}} style={styles.image} />
-      <Text style={styles.name}>{pizzaDetails.name}</Text>
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={[
+          styles.contentContainer,
+          cartVisible && {marginBottom: 80}, // Reserve space for the fixed cart
+        ]}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <Image source={{uri: pizzaDetails.imageUrl}} style={styles.image} />
+        <Text style={styles.name}>{pizzaDetails.name}</Text>
 
-      <View style={styles.priceContainer}>
-        <Text style={styles.price}>${pizzaDetails.price}</Text>
-        {itemCount === 0 ? (
-          <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
-            <Text style={styles.addButtonText}>Add</Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.counterContainer}>
+        <View style={styles.priceContainer}>
+          <Text style={styles.price}>${pizzaDetails.price}</Text>
+          {itemCount === 0 ? (
             <TouchableOpacity
-              style={styles.counterButton}
-              onPress={handleRemoveFromCart}>
-              <Text style={styles.counterButtonText}>-</Text>
-            </TouchableOpacity>
-            <Text style={styles.itemCount}>{itemCount}</Text>
-            <TouchableOpacity
-              style={styles.counterButton}
+              style={styles.addButton}
               onPress={handleAddToCart}>
-              <Text style={styles.counterButtonText}>+</Text>
+              <Text style={styles.addButtonText}>Add</Text>
             </TouchableOpacity>
-          </View>
-        )}
-      </View>
+          ) : (
+            <View style={styles.counterContainer}>
+              <TouchableOpacity
+                style={styles.counterButton}
+                onPress={handleRemoveFromCart}>
+                <Text style={styles.counterButtonText}>-</Text>
+              </TouchableOpacity>
+              <Text style={styles.itemCount}>{itemCount}</Text>
+              <TouchableOpacity
+                style={styles.counterButton}
+                onPress={handleAddToCart}>
+                <Text style={styles.counterButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
 
-      <View style={[styles.descriptionContainer]}>
+        <View style={[styles.descriptionContainer]}>
           <RenderHTML
             contentWidth={300}
             source={{html: pizzaDetails?.longDescription}}
             tagsStyles={{
-              p: { fontSize: 16, color: '#333' },
-              h1: { fontSize: 22, fontWeight: 'bold' },
+              p: {fontSize: 16, color: '#333'},
+              h1: {fontSize: 22, fontWeight: 'bold'},
             }}
           />
         </View>
-        </ScrollView>
+      </ScrollView>
       {cartVisible && (
         <View style={styles.cartContainer}>
           <Cart onViewCart={handleViewCart} />

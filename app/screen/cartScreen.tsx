@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from '../../styles/cartScreenStyle.scss';
@@ -50,7 +51,10 @@ const CartScreen = () => {
 
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
   const [itemToRemove, setItemToRemove] = useState<CartPizza | null>(null);
-  const [deliveryAddress, setDeliveryAddress] = useState<string | null>(null); // State to store the address
+  const [deliveryAddress, setDeliveryAddress] = useState<string | null>(null);
+
+  const [loading, setLoading] = useState(false);
+  const [loaderMessage, setLoaderMessage] = useState('');
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
@@ -123,11 +127,31 @@ const CartScreen = () => {
 
   const handleConfirmRemove = () => {
     if (itemToRemove) {
+      // Start loading with a message
+      setLoading(true);
+      setLoaderMessage(
+        'Updating your cart... Bringing you back to the pizzas shortly.',
+      );
+
+      // Remove the item from the cart
       removeFromCart(itemToRemove.pizzaId);
       setShowRemoveDialog(false);
-      setItemToRemove(null); // Reset itemToRemove
+      setItemToRemove(null);
+
+      // Delay for 3 seconds before navigating to Home
+      setTimeout(() => {
+        setLoading(false);
+        navigation.navigate('Home'); // Navigate to Home screen
+      }, 3000);
     }
   };
+
+  const renderLoader = () => (
+    <View style={styles.loaderContainer}>
+      <ActivityIndicator size="large" color="#ff6b6b" />
+      <Text style={styles.loaderMessage}>{loaderMessage}</Text>
+    </View>
+  );
 
   const handleOrder = async () => {
     const orderPayload = {
@@ -135,8 +159,7 @@ const CartScreen = () => {
         pizzaId: item.pizzaId,
         quantity: item.quantity,
       })),
-      // deliveryAddress: '123 Pizza Street, Foodtown', // Hardcoded for now
-      deliveryAddress: deliveryAddress || 'No address available', // Use the fetched address or fallback message
+      deliveryAddress: deliveryAddress || 'No address available',
     };
 
     try {
@@ -223,7 +246,9 @@ const CartScreen = () => {
   );
   return (
     <View style={styles.cartCard}>
-      {cart.length > 0 ? (
+      {loading ? (
+        renderLoader() // Show loader if `loading` is true
+      ) : cart.length > 0 ? (
         <>
           <FlatList
             data={cart}

@@ -1,4 +1,6 @@
-const BASE_URL = 'http://192.168.29.69:8000/api/v1/';
+import Config from 'react-native-config';
+
+const BASE_URL = Config.API_URL;
 
 export const AUTHENTICATION_URL = {
   REGISTER_API_URL: `${BASE_URL}/register`,

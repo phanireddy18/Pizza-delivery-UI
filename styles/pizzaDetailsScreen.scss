@@ -1,6 +1,7 @@
 .container {
   flex: 1;
   background-color: #f8f8f8;
+  position: relative;
 }
 
 .contentContainer {
@@ -145,4 +146,12 @@
 .viewCartButtonText {
   color: #fff;
   font-size: 16px;
+}
+.cartContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  // background-color: rgba(255, 255, 255, 0.95);
 }

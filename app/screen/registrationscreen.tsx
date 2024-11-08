@@ -122,7 +122,7 @@ const RegistrationScreen = () => {
           address: '', // Reset address error
         });
 
-        navigation.navigate('Login');
+        navigation.navigate('Home');
       } catch (error: any) {
         console.error(
           'Registration failed:',

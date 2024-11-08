@@ -1,12 +1,12 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {navigate} from '../services/NavigationService'; // Import the navigate function
+import Config from 'react-native-config';
 
-// Create an axios instance
 const api = axios.create({
-  baseURL: 'http://192.168.29.69:7000/api/v1/',
+  baseURL: Config.API_URL,
 });
 
-// Add request interceptor to include the token in the Authorization header
 api.interceptors.request.use(
   async config => {
     const token = await AsyncStorage.getItem('userToken');
@@ -22,20 +22,21 @@ api.interceptors.request.use(
   },
 );
 
-// Add response interceptor to handle 401 errors
 api.interceptors.response.use(
   response => {
-    return response; // Return response if successful
+    return response;
   },
   async error => {
     if (error.response && error.response.status === 401) {
-      // Handle 401 Unauthorized errors
       console.error('Unauthorized - Token might be invalid');
       await AsyncStorage.removeItem('userToken');
       await AsyncStorage.removeItem('userInfo');
       await AsyncStorage.removeItem('userId');
+      await AsyncStorage.getItem('cart');
 
-      // Notify the calling component to handle navigation
+      // Navigate to Login screen
+      navigate('Login');
+
       return Promise.reject({...error, status: 401});
     }
 

@@ -12,11 +12,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../../styles/globalStyle.scss';
 import OrderHistoryScreen from '../screen/orderHistoryScreen';
+import { useCart } from '../utils/CartContext';
 
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = ({navigation}: any) => {
+  const { clearCart} = useCart();
   const handleLogout = () => {
     Alert.alert(
       'Logout',
@@ -31,6 +33,8 @@ const DrawerNavigation = ({navigation}: any) => {
           onPress: async () => {
             // Navigate back to the login screen
             await AsyncStorage.removeItem('userToken');
+            await AsyncStorage.removeItem('cart');
+            clearCart();
             navigation.dispatch(DrawerActions.closeDrawer());
             navigation.replace('Login');
           },

@@ -120,8 +120,9 @@ export default function LoginScreen() {
       }}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
+        {/* // Display error message */}
         {errorMessage ? (
-        <Text style={styles.loginErrorMsg}>{errorMessage}</Text>  // Display error message
+        <Text style={styles.loginErrorMsg}>{errorMessage}</Text>  
       ) : null}
         {/* Email Input */}
         <TextInput

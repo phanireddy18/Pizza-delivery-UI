@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   View,
@@ -31,9 +32,10 @@ const RegistrationScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [address, setAddress] = useState(''); // New state for address
+  const [address, setAddress] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [backendError, setBackendError] = useState(''); // State for backend error messages
 
   const [errors, setErrors] = useState({
     username: '',
@@ -41,7 +43,7 @@ const RegistrationScreen = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    address: '', // New error for address
+    address: '',
   });
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -56,7 +58,7 @@ const RegistrationScreen = () => {
       email: '',
       password: '',
       confirmPassword: '',
-      address: '', // New validation for address
+      address: '',
     };
 
     // Validation checks
@@ -86,51 +88,37 @@ const RegistrationScreen = () => {
     }
 
     if (!address) {
-      // Address validation
       newErrors.address = 'Address is required.';
       hasError = true;
     }
 
-    setErrors(newErrors); // Update the error state
+    setErrors(newErrors);
+    setBackendError(''); // Clear backend error on new registration attempt
 
     if (!hasError) {
-      const data = {
-        username,
-        phoneNumber,
-        email,
-        password,
-        address, // Include address in the data
-      };
-
+      const data = {username, phoneNumber, email, password, address};
       try {
         const response = await registerService(data);
         console.log('Registration successful:', response);
 
-        // Reset all fields
+        // Reset all fields and errors
         setUsername('');
         setPhoneNumber('');
         setEmail('');
         setPassword('');
         setConfirmPassword('');
-        setAddress(''); // Reset address field
+        setAddress('');
         setErrors({
           username: '',
           phoneNumber: '',
           email: '',
           password: '',
           confirmPassword: '',
-          address: '', // Reset address error
+          address: '',
         });
-
         navigation.navigate('Home');
       } catch (error: any) {
-        console.error(
-          'Registration failed:',
-          error.response?.data || error.message,
-        );
-        setErrors({
-          ...newErrors,
-        });
+        setBackendError(error.response?.data?.message || error.message); // Store backend error message
       }
     }
   };
@@ -138,88 +126,105 @@ const RegistrationScreen = () => {
   return (
     <ImageBackground
       source={require('../assets/images/pizza.jpg')}
-      resizeMethod={'auto'}
-      style={{
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden', // prevent image overflow the container
-        backgroundColor: '#000',
-      }}
+      style={{width: '100%', height: '100%', backgroundColor: '#000'}}
       imageStyle={{
         resizeMode: 'cover',
         height: '100vh',
         width: '100%',
-        justifyContent: 'center',
         opacity: 0.3,
       }}>
       <View style={styles.container}>
         <Text style={styles.title}>Register</Text>
 
-        {/* Existing fields */}
+        {/* Backend Error Message */}
+        {backendError ? (
+          <Text style={styles.errorText}>{backendError}</Text>
+        ) : null}
+
+        {/* Username Field */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Username"
             placeholderTextColor="#fff"
             value={username}
-            onChangeText={setUsername}
+            onChangeText={text => {
+              setUsername(text);
+              setErrors(prevErrors => ({...prevErrors, username: ''})); // Clear error on typing
+            }}
           />
-          {errors.username ? (
+          {errors.username && (
             <Text style={styles.errorText}>{errors.username}</Text>
-          ) : null}
+          )}
         </View>
+
+        {/* Phone Number Field */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Phone Number"
             placeholderTextColor="#fff"
             value={phoneNumber}
-            onChangeText={setPhoneNumber}
+            onChangeText={text => {
+              setPhoneNumber(text);
+              setErrors(prevErrors => ({...prevErrors, phoneNumber: ''}));
+            }}
             keyboardType="phone-pad"
           />
-          {errors.phoneNumber ? (
+          {errors.phoneNumber && (
             <Text style={styles.errorText}>{errors.phoneNumber}</Text>
-          ) : null}
+          )}
         </View>
+
+        {/* Email Field */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Email"
             placeholderTextColor="#fff"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={text => {
+              setEmail(text);
+              setErrors(prevErrors => ({...prevErrors, email: ''}));
+            }}
             keyboardType="email-address"
           />
-          {errors.email ? (
-            <Text style={styles.errorText}>{errors.email}</Text>
-          ) : null}
+          {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
         </View>
 
-        {/* New Address field */}
+        {/* Address Field */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Address"
             placeholderTextColor="#fff"
             value={address}
-            onChangeText={setAddress}
+            onChangeText={text => {
+              setAddress(text);
+              setErrors(prevErrors => ({...prevErrors, address: ''}));
+            }}
           />
-          {errors.address ? (
+          {errors.address && (
             <Text style={styles.errorText}>{errors.address}</Text>
-          ) : null}
+          )}
         </View>
 
-        {/* Password fields */}
+        {/* Password and Confirm Password Fields */}
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.passwordInput}
             placeholder="Password"
             placeholderTextColor="#fff"
             value={password}
-            onChangeText={setPassword}
+            onChangeText={text => {
+              setPassword(text);
+              setErrors(prevErrors => ({...prevErrors, password: ''}));
+            }}
             secureTextEntry={!showPassword}
           />
-          <TouchableOpacity onPress={togglePasswordVisibility}>
+          <TouchableOpacity
+            onPress={togglePasswordVisibility}
+            style={styles.iconContainer}>
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               size={20}
@@ -227,11 +232,9 @@ const RegistrationScreen = () => {
             />
           </TouchableOpacity>
         </View>
-        <View>
-          {errors.password ? (
-            <Text style={styles.errorText}>{errors.password}</Text>
-          ) : null}
-        </View>
+        {errors.password && (
+          <Text style={styles.errorText}>{errors.password}</Text>
+        )}
 
         <View style={styles.passwordContainer}>
           <TextInput
@@ -239,10 +242,15 @@ const RegistrationScreen = () => {
             placeholder="Confirm Password"
             placeholderTextColor="#fff"
             value={confirmPassword}
-            onChangeText={setConfirmPassword}
+            onChangeText={text => {
+              setConfirmPassword(text);
+              setErrors(prevErrors => ({...prevErrors, confirmPassword: ''}));
+            }}
             secureTextEntry={!showConfirmPassword}
           />
-          <TouchableOpacity onPress={toggleConfirmPasswordVisibility}>
+          <TouchableOpacity
+            onPress={toggleConfirmPasswordVisibility}
+            style={styles.iconContainer}>
             <Icon
               name={showConfirmPassword ? 'eye-off' : 'eye'}
               size={20}
@@ -250,11 +258,11 @@ const RegistrationScreen = () => {
             />
           </TouchableOpacity>
         </View>
-        <View>
-          {errors.confirmPassword ? (
-            <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-          ) : null}
-        </View>
+        {errors.confirmPassword && (
+          <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+        )}
+
+        {/* Register Button */}
         <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>

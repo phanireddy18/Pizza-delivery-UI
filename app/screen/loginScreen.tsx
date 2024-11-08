@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ImageBackground,
-  StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -15,7 +14,7 @@ import styles from '../../styles/loginScreen.scss';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {validateEmail, validatePassword} from '../utils/authUtils';
 import {loginUser} from '../services/loginService';
-import { RootStackParamList } from '../../type';
+import {RootStackParamList} from '../../type';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -30,7 +29,7 @@ export default function LoginScreen() {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false); // Loading state
-  const [errorMessage, setErrorMessage] = useState(''); 
+  const [errorMessage, setErrorMessage] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -101,9 +100,8 @@ export default function LoginScreen() {
   );
 
   return (
-    
     <ImageBackground
-     source={require('../assets/images/pizza.jpg')}
+      source={require('../assets/images/pizza.jpg')}
       resizeMethod={'auto'}
       style={{
         width: '100%',
@@ -112,28 +110,27 @@ export default function LoginScreen() {
         backgroundColor: '#000',
       }}
       imageStyle={{
-        resizeMode:'cover',
+        resizeMode: 'cover',
         height: '100vh',
         width: '100%',
         justifyContent: 'center',
-        opacity: 0.3,
+        opacity: 0.4,
       }}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
         {/* // Display error message */}
         {errorMessage ? (
-        <Text style={styles.loginErrorMsg}>{errorMessage}</Text>  
-      ) : null}
+          <Text style={styles.loginErrorMsg}>{errorMessage}</Text>
+        ) : null}
         {/* Email Input */}
         <TextInput
           style={[styles.input, emailError ? styles.inputError : null]}
           placeholder="Email"
-          placeholderTextColor="#fff"
+          placeholderTextColor="#888"
           value={email}
           onChangeText={text => {
             setEmail(text);
-            setErrorMessage('');
-            setEmailError(null)
+            setEmailError(null);
             if (emailError) {
               setEmailError(null);
             }
@@ -152,25 +149,23 @@ export default function LoginScreen() {
           <TextInput
             style={styles.passwordInput}
             placeholder="Password"
-            placeholderTextColor="#fff"
+            placeholderTextColor="#888"
             value={password}
             onChangeText={text => {
               setPassword(text);
-              setErrorMessage('');
               setPasswordError(null);
               if (passwordError) {
                 setPasswordError(null);
               }
             }}
             secureTextEntry={!showPassword}
-            keyboardType="email-address"
-             autoCapitalize="none"
+            autoCapitalize="none"
           />
           <TouchableOpacity onPress={togglePasswordVisibility}>
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               size={20}
-              color="#fff"
+              color="#888"
             />
           </TouchableOpacity>
         </View>

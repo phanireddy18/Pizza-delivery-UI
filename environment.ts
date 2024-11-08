@@ -1,4 +1,4 @@
-const BASE_URL = 'http://192.168.29.69:8000/api/v1/';
+const BASE_URL = 'http://pizza-delivery.redblocks.solutions:8000/api/v1';
 
 export const AUTHENTICATION_URL = {
   REGISTER_API_URL: `${BASE_URL}/register`,
@@ -15,6 +15,6 @@ export const SCREEN_URL = {
   //Orders History
   GET_ORDERS_HISTORY: `${BASE_URL}/orders/user`,
 
-    //Place order
+  //Place order
   PLACE_ORDERS: `${BASE_URL}/orders`,
 };

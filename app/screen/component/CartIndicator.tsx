@@ -9,14 +9,14 @@ const CartIconWithIndicator = () => {
 
   return (
     <View style={{position: 'relative', padding: 10}}>
-      <Ionicons name="bag" size={24} color="#a2aa42" />
+      <Ionicons name="bag" size={24} color="#4caf50" />
       {cart.length > 0 && (
         <View
           style={{
             position: 'absolute',
             right: 0,
             top: 0,
-            backgroundColor: '#a2aa42',
+            backgroundColor: '#4caf50',
             borderRadius: 8,
             width: 15,
             height: 15,

@@ -14,11 +14,12 @@
 
 .input {
   border-width: 1px;
-  border-color: #ddd;
+  border-color: #fff;
   padding: 10px;
   border-radius: 8px;
   font-size: 16px;
-  background-color: #fff;
+  background-color: transparent;
+  color: #fff;
   height: 50px;
   margin-bottom: 10px;
 }
@@ -28,14 +29,16 @@
   align-items: center;
   justify-content: space-between;
   border-width: 1px;
-  border-color: #ddd;
+  border-color: #fff;
   border-radius: 8px;
   padding: 0 8px;
-  background-color: #fff;
   height: 50px;
   margin-bottom: 10px;
 }
-
+.passwordInput{
+  background-color: transparent;
+  color: #fff;
+}
 .button {
   background-color: #4caf50;
   padding: 15px;

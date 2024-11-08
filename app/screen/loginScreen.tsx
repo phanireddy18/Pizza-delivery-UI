@@ -7,14 +7,15 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ImageBackground,
+  StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {StackNavigationProp} from '@react-navigation/stack';
 import styles from '../../styles/loginScreen.scss';
-import {RootStackParamList} from '../navigation/MainNavigator';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {validateEmail, validatePassword} from '../utils/authUtils';
 import {loginUser} from '../services/loginService';
+import { RootStackParamList } from '../../type';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -100,8 +101,9 @@ export default function LoginScreen() {
   );
 
   return (
+    
     <ImageBackground
-      source={require('../assets/images/pizza.jpg')}
+     source={require('../assets/images/pizza.jpg')}
       resizeMethod={'auto'}
       style={{
         width: '100%',
@@ -110,11 +112,11 @@ export default function LoginScreen() {
         backgroundColor: '#000',
       }}
       imageStyle={{
-        resizeMode: 'cover',
+        resizeMode:'cover',
         height: '100vh',
         width: '100%',
         justifyContent: 'center',
-        opacity: 0.4,
+        opacity: 0.3,
       }}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
@@ -125,10 +127,11 @@ export default function LoginScreen() {
         <TextInput
           style={[styles.input, emailError ? styles.inputError : null]}
           placeholder="Email"
-          placeholderTextColor="#888"
+          placeholderTextColor="#fff"
           value={email}
           onChangeText={text => {
             setEmail(text);
+            setErrorMessage('');
             setEmailError(null)
             if (emailError) {
               setEmailError(null);
@@ -148,23 +151,25 @@ export default function LoginScreen() {
           <TextInput
             style={styles.passwordInput}
             placeholder="Password"
-            placeholderTextColor="#888"
+            placeholderTextColor="#fff"
             value={password}
             onChangeText={text => {
               setPassword(text);
+              setErrorMessage('');
               setPasswordError(null);
               if (passwordError) {
                 setPasswordError(null);
               }
             }}
             secureTextEntry={!showPassword}
-            autoCapitalize="none"
+            keyboardType="email-address"
+             autoCapitalize="none"
           />
           <TouchableOpacity onPress={togglePasswordVisibility}>
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               size={20}
-              color="#888"
+              color="#fff"
             />
           </TouchableOpacity>
         </View>

@@ -150,7 +150,7 @@ const RegistrationScreen = () => {
         height: '100vh',
         width: '100%',
         justifyContent: 'center',
-        opacity: 0.4,
+        opacity: 0.3,
       }}>
       <View style={styles.container}>
         <Text style={styles.title}>Register</Text>
@@ -160,7 +160,7 @@ const RegistrationScreen = () => {
           <TextInput
             style={styles.input}
             placeholder="Username"
-            placeholderTextColor="#888888"
+            placeholderTextColor="#fff"
             value={username}
             onChangeText={setUsername}
           />
@@ -172,7 +172,7 @@ const RegistrationScreen = () => {
           <TextInput
             style={styles.input}
             placeholder="Phone Number"
-            placeholderTextColor="#888888"
+            placeholderTextColor="#fff"
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -185,7 +185,7 @@ const RegistrationScreen = () => {
           <TextInput
             style={styles.input}
             placeholder="Email"
-            placeholderTextColor="#888888"
+            placeholderTextColor="#fff"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -200,7 +200,7 @@ const RegistrationScreen = () => {
           <TextInput
             style={styles.input}
             placeholder="Address"
-            placeholderTextColor="#888888"
+            placeholderTextColor="#fff"
             value={address}
             onChangeText={setAddress}
           />
@@ -214,7 +214,7 @@ const RegistrationScreen = () => {
           <TextInput
             style={styles.passwordInput}
             placeholder="Password"
-            placeholderTextColor="#888"
+            placeholderTextColor="#fff"
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
@@ -223,7 +223,7 @@ const RegistrationScreen = () => {
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               size={20}
-              color="#888"
+              color="#fff"
             />
           </TouchableOpacity>
         </View>
@@ -237,7 +237,7 @@ const RegistrationScreen = () => {
           <TextInput
             style={styles.passwordInput}
             placeholder="Confirm Password"
-            placeholderTextColor="#888888"
+            placeholderTextColor="#fff"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry={!showConfirmPassword}
@@ -246,7 +246,7 @@ const RegistrationScreen = () => {
             <Icon
               name={showConfirmPassword ? 'eye-off' : 'eye'}
               size={20}
-              color="#888"
+              color="#fff"
             />
           </TouchableOpacity>
         </View>

@@ -236,10 +236,6 @@ const CartScreen = () => {
           <View style={styles.separator} />
           <View>
             {deliveryAddress && (
-              // <View style={styles.addressContainer}>
-              //   <Text style={styles.addressText}>Delivery Address:</Text>
-              //   <Text style={styles.address}>{deliveryAddress}</Text>
-              // </View>
               <AddressComponent deliveryAddress={deliveryAddress} />
             )}
             <View style={styles.separator} />

@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
@@ -19,6 +18,7 @@ import Cart from './component/Cart';
 import {useCart} from '../utils/CartContext';
 import {StackNavigationProp} from '@react-navigation/stack';
 
+// Define types for pizza details and route/navigation props
 interface PizzaDetails {
   pizzaId: number;
   name: string;
@@ -36,7 +36,6 @@ type PizzaDetailsScreenRouteProp = RouteProp<
   RootStackParamList,
   'PizzaDetails'
 >;
-
 type PizzaDetailsScreenProps = {route: PizzaDetailsScreenRouteProp};
 type CartScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -75,15 +74,16 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
     setRefreshing(true);
     fetchPizzaDetails();
   };
+
   const handleAddToCart = () => {
     if (pizzaDetails) {
       const cartItem = {
         pizzaId: pizzaDetails.pizzaId,
         name: pizzaDetails.name,
         price: parseFloat(pizzaDetails.price),
-        imageUrl: pizzaDetails.imageUrl, // This is the important part
+        imageUrl: pizzaDetails.imageUrl,
         quantity: 1,
-        itemTotal: parseFloat(pizzaDetails.price), // Set initial item total as price
+        itemTotal: parseFloat(pizzaDetails.price),
       };
       addToCart(cartItem);
     }
@@ -92,7 +92,7 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
   const handleRemoveFromCart = () => {
     if (!pizzaDetails) {
       return;
-    } // Ensure pizzaDetails is not null
+    }
 
     if (itemCount > 1) {
       addToCart({
@@ -101,7 +101,7 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
         price: parseFloat(pizzaDetails.price),
         imageUrl: pizzaDetails.imageUrl,
         quantity: -1,
-        itemTotal: 0, // You can calculate this correctly in the cart logic
+        itemTotal: 0,
       });
     } else {
       removeFromCart(pizzaDetails.pizzaId);
@@ -138,8 +138,8 @@ const PizzaDetailsScreen = ({route}: PizzaDetailsScreenProps) => {
 
   return (
     <ScrollView
-    style={styles.container}
-      contentContainerStyle={{alignItems: 'flex-start', padding: 20}}
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
